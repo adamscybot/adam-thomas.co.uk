@@ -1,0 +1,28 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { css } from '../styled-system/css';
+import BodyHeader from './BodyHeader.astro';
+import FormattedDate from './FormattedDate.astro';
+
+type Props = HTMLAttributes<'section'> & {
+    org: string
+    position: string
+    startDate: Date
+    endDate?: Date
+};
+
+
+
+const { org, position, startDate, endDate, ...props} =  Astro.props;
+
+---
+
+<section class={css({ mb: 16, display: 'flex', flexDir: 'column', '2xl': { flexDir: 'row' }})} {...props}>
+    <header class={css({flex: '0 0', mb: 4, borderWidth: 1, borderStyle: 'none', borderLeftStyle: 'solid', borderColor: 'slate.400', ml: -3, pl: 3, '2xl': { mb: 0, pl: 0, flexBasis: 300, ml: -300, pr: 5, textAlign: 'right', position: 'sticky', top: 5, alignSelf: 'baseline', borderLeftStyle: 'none'}, overflow: 'hidden'  })}> 
+        <BodyHeader element="h3" class={css({color: 'slate.300', fontSize: '0.9rem', mb: 0,  textTransform: 'none'})}>{position}<br/><span class={css({opacity: 0.9, fontSize: '0.85rem', textTransform: 'none', fontWeight: 500})}>{org}</span></BodyHeader>
+        <p class={css({textStyle: 'body', color: 'text.body', fontSize: '0.85rem'})}><FormattedDate date={startDate}/> - {endDate ? <FormattedDate date={endDate}/> : 'Current'}</p>
+    </header>
+    <div class={css({flex: '1 1 auto'})}>
+        <slot/>
+    </div>
+</section>

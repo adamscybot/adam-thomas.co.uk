@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { css } from '../styled-system/css';
+import BodyHeader from './BodyHeader.astro';
+
+type Props = Omit<HTMLAttributes<'section'>, 'title'> & { title: string }
+
+
+const { title, ...props} =  Astro.props;
+
+---
+
+<section class={css({ mb: 20})} {...props}>
+    <BodyHeader>{title}</BodyHeader>
+    <slot/>
+</section>
