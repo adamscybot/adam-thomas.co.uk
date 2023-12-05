@@ -1,11 +1,17 @@
 ---
-import type { HTMLAttributes } from 'astro/types';
-import { css } from '../styled-system/css';
+import type { HTMLAttributes } from 'astro/types'
+import { css } from '../styled-system/css'
 
-type Props = HTMLAttributes<'p'>;
-
+type Props = HTMLAttributes<'p'>
 ---
 
-<p class={css({textStyle: 'body', color: 'text.body', mb: 5, textAlign: 'justify'})} >
-    <slot/>
+<p
+  class={css({
+    textStyle: 'body',
+    color: 'text.body',
+    mb: 5,
+    textAlign: 'justify',
+  })}
+>
+  <slot />
 </p>

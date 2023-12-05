@@ -7,7 +7,7 @@ export const textStyles = defineTextStyles({
         fontFamily: 'inter',
         fontWeight: '700',
         fontSize: '3rem',
-        lineHeight: '1.4',
+        lineHeight: '1.1',
       }
     },
     tagline: {
@@ -33,9 +33,12 @@ export const textStyles = defineTextStyles({
       value: {
         fontFamily: 'inter',
         fontWeight: '700',
-        fontSize: '1rem',
+        fontSize: '0.9rem',
         lineHeight: '1.35',
         textTransform: 'uppercase',
+        xs: {
+          fontSize: '1rem',
+        }
       }
     },
     link: {
@@ -86,6 +89,10 @@ export default defineConfig({
         }
       },
       breakpoints: {
+        // Width at which nav is on one line with larger padding
+        xs: '430px',
+        // Width at which the left hand gutter design feature becomes
+        // available.
         '2xl': '1450px'
       }
     },

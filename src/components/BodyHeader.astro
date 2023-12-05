@@ -1,15 +1,18 @@
 ---
-import type { HTMLAttributes, HTMLTag } from 'astro/types';
-import { css } from '../styled-system/css';
+import type { HTMLAttributes, HTMLTag } from 'astro/types'
+import { css } from '../styled-system/css'
 
-type Props = Pick<HTMLAttributes<'h2'>, 'class'> & { element?: HTMLTag };
+type Props = Pick<HTMLAttributes<'h2'>, 'class'> & { element?: HTMLTag }
 
 const { class: className, element: Element = 'h2', ...props } = Astro.props
-
-
-
 ---
 
-<Element class:list={[className, css({textStyle: 'header', color: 'text.header', mb: 2})]} {...props}>
-    <slot/>
+<Element
+  class:list={[
+    className,
+    css({ textStyle: 'header', color: 'text.header', mb: 2 }),
+  ]}
+  {...props}
+>
+  <slot />
 </Element>

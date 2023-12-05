@@ -1,9 +1,29 @@
 ---
-import { css } from "../styled-system/css";
-import Link from "./Link.astro";
+import { css } from '../styled-system/css'
+import Link from './Link.astro'
 ---
 
-<footer class={css({textAlign: 'right', textStyle: 'body', fontStyle: 'italic', pt: 20,  color: 'slate.500', fontWeight: '600'})}>
-	Designed & coded by Adam with <Link href="https://astro.build/" target="_blank">Astro</Link> & <Link href="https://panda-css.com/" target="_blank">Panda</Link><br/>
-	Source on <Link href="https://github.com/adamscybot/adam-thomas.co.uk" target="_blank">GitHub</Link>
+<footer
+  class={css({
+    textAlign: 'right',
+    textStyle: 'body',
+    fontStyle: 'italic',
+    pt: 20,
+    color: 'slate.500',
+    fontWeight: '600',
+  })}
+>
+  Designed & coded by Adam with <Link
+    href="https://astro.build/"
+    target="_blank"
+  >
+    Astro
+  </Link> & <Link href="https://panda-css.com/" target="_blank">Panda</Link><br
+  />
+   Source on <Link
+    href="https://github.com/adamscybot/adam-thomas.co.uk"
+    target="_blank"
+  >
+    GitHub
+  </Link>
 </footer>

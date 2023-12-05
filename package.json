@@ -8,7 +8,8 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prettier": "prettier --write \"src/**/*\" --plugin=prettier-plugin-astro --ignore-path .prettierignore"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.1",
@@ -25,6 +26,8 @@
   },
   "devDependencies": {
     "@pandacss/astro": "^0.20.1",
-    "@pandacss/dev": "^0.20.1"
+    "@pandacss/dev": "^0.20.1",
+    "prettier": "^3.1.0",
+    "prettier-plugin-astro": "^0.12.2"
   }
 }

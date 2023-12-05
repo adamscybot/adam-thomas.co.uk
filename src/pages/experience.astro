@@ -1,103 +1,193 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import BodyParagraph from '../components/BodyParagraph.astro';
-import BodySection from '../components/BodySection.astro';
-import ExperienceEntry from '../components/ExperienceEntry.astro';
-import Link from '../components/Link.astro';
+import Layout from '../layouts/Layout.astro'
+import BodyParagraph from '../components/BodyParagraph.astro'
+import BodySection from '../components/BodySection.astro'
+import ExperienceEntry from '../components/ExperienceEntry.astro'
+import Link from '../components/Link.astro'
 ---
 
 <Layout>
-    <BodySection title="Employment">
-        <ExperienceEntry org="Informatica (formerly Privitar)" position="Engineering Manager" startDate={new Date('2023-08-01')}>
-            <BodyParagraph>
-                Privitar was <Link href="https://www.informatica.com/blogs/welcome-to-the-informatica-family-privitar.html" target="_blank">recently acquired</Link> by Informatica. I have continued my role within Informatica, with a renewed focus on integrating Privitar's data security and privacy products into Informatica's existing platform. 
-            </BodyParagraph>
-            <BodyParagraph>
-                As an Engineering Manager I have a key role in ensuring a smooth transition. I am also involved in integration work relating to the UI of the products.
-            </BodyParagraph>
-        </ExperienceEntry>
-        <ExperienceEntry org="Privitar" position="Engineering Manager" startDate={new Date('2021-08-01')} endDate={new Date('2023-08-01')}>
-            <BodyParagraph>
-                My role expanded to include Engineering Management responsbilities. I am responsible for the engineers in my team, including creating an environment for them in which they can thrive. I have continued to grow the companies UI function, which positively impacted our product. I work closely with UX and Product to deliver product features and facilitate alignment of my team.
-            </BodyParagraph>
-            <BodyParagraph>
-                I designed and oversaw a move from a horizontal UI team to a vertical structure with UI devs integrated with other teams; as well as the formation of a new UI Initiatives team. 
-            </BodyParagraph>
-            <BodyParagraph>
-                For part of this period I also managed the Platform team, which tackled the core architecture of the product. Many features were delivered between my time between UI and Platform.
-            </BodyParagraph>
-            <BodyParagraph>
-                I also work on tasks directly, and sit on the Architecture Forum to represent Front End interests.
-            </BodyParagraph>
-        </ExperienceEntry>
-        <ExperienceEntry org="Alfa Financial Software" position="Development Lead" startDate={new Date('2017-11-01')} endDate={new Date('2019-08-01')}>
-            <BodyParagraph>
-                I continued my responsibilities as lead for the companies UI developer team, working on a vast transformation of Alfa’s core product (in house UI framework) to a single page application (React/TypeScript). This work is at a high scale; working on an enterprise application that comprises of hundreds of screens.
-            </BodyParagraph>
-            <BodyParagraph>
-                I actively maintained and delivered UI training inside the company, and mentored colleagues on our UI stack.
-            </BodyParagraph>
-            <BodyParagraph>
-                I architected the companies underlying UI framework which was used to deliver features to clients in the asset finance industry.
-            </BodyParagraph>
-        </ExperienceEntry>
+  <BodySection title="Employment">
+    <ExperienceEntry
+      org="Informatica (formerly Privitar)"
+      position="Engineering Manager"
+      startDate={new Date('2023-08-01')}
+    >
+      <BodyParagraph>
+        Privitar was <Link
+          href="https://www.informatica.com/blogs/welcome-to-the-informatica-family-privitar.html"
+          target="_blank"
+        >
+          recently acquired
+        </Link> by Informatica. I have continued my role within Informatica,
+        with a renewed focus on integrating Privitar's data security and privacy
+        products into Informatica's existing platform.
+      </BodyParagraph>
+      <BodyParagraph>
+        As an Engineering Manager I have a key role in ensuring a smooth
+        transition. I am also involved in integration work relating to the UI of
+        the products.
+      </BodyParagraph>
+    </ExperienceEntry>
+    <ExperienceEntry
+      org="Privitar"
+      position="Engineering Manager"
+      startDate={new Date('2021-08-01')}
+      endDate={new Date('2023-08-01')}
+    >
+      <BodyParagraph>
+        My role expanded to include Engineering Management responsbilities. I am
+        responsible for the engineers in my team, including creating an
+        environment for them in which they can thrive. I have continued to grow
+        the companies UI function, which positively impacted our product. I work
+        closely with UX and Product to deliver product features and facilitate
+        alignment of my team.
+      </BodyParagraph>
+      <BodyParagraph>
+        I designed and oversaw a move from a horizontal UI team to a vertical
+        structure with UI devs integrated with other teams; as well as the
+        formation of a new UI Initiatives team.
+      </BodyParagraph>
+      <BodyParagraph>
+        For part of this period I also managed the Platform team, which tackled
+        the core architecture of the product. Many features were delivered
+        between my time between UI and Platform.
+      </BodyParagraph>
+      <BodyParagraph>
+        I also work on tasks directly, and sit on the Architecture Forum to
+        represent Front End interests.
+      </BodyParagraph>
+    </ExperienceEntry>
+    <ExperienceEntry
+      org="Alfa Financial Software"
+      position="Development Lead"
+      startDate={new Date('2017-11-01')}
+      endDate={new Date('2019-08-01')}
+    >
+      <BodyParagraph>
+        I continued my responsibilities as lead for the companies UI developer
+        team, working on a vast transformation of Alfa’s core product (in house
+        UI framework) to a single page application (React/TypeScript). This work
+        is at a high scale; working on an enterprise application that comprises
+        of hundreds of screens.
+      </BodyParagraph>
+      <BodyParagraph>
+        I actively maintained and delivered UI training inside the company, and
+        mentored colleagues on our UI stack.
+      </BodyParagraph>
+      <BodyParagraph>
+        I architected the companies underlying UI framework which was used to
+        deliver features to clients in the asset finance industry.
+      </BodyParagraph>
+    </ExperienceEntry>
 
+    <ExperienceEntry
+      org="Alfa Financial Software"
+      position="Senior Consultant"
+      startDate={new Date('2017-01-01')}
+      endDate={new Date('2017-11-01')}
+    >
+      <BodyParagraph>
+        I joined Alfa's R&D team as a JavaScript expert to work on the front end
+        of Alfa's best-in-class asset finance management platform. Alfa had
+        recently completed an IPO.
+      </BodyParagraph>
+      <BodyParagraph>
+        I drove transformative web & mobile projects within the company using
+        React, React Native and a modern JS stack.
+      </BodyParagraph>
+      <BodyParagraph>
+        I led the development of a substantial technical and design restructure
+        of the products existing enterprise-scale UI. In addition, I applied my
+        UI knowledge to new R&D greenfield initiatives within the company for
+        web & mobile.
+      </BodyParagraph>
+      <BodyParagraph>
+        As part of my work, I developed a visual interface for a credit decision
+        system, and improved the application performance by 30% via conversion
+        to an SPA.
+      </BodyParagraph>
+    </ExperienceEntry>
 
-        <ExperienceEntry org="Alfa Financial Software" position="Senior Consultant" startDate={new Date('2017-01-01')} endDate={new Date('2017-11-01')}>
-            <BodyParagraph>
-               I joined Alfa's R&D team as a JavaScript expert to work on the front end of Alfa's best-in-class asset finance management platform. Alfa had recently completed an IPO.
-            </BodyParagraph>
-            <BodyParagraph>
-                I drove transformative web & mobile projects within the company using React, React Native and a modern JS stack.
-            </BodyParagraph>
-            <BodyParagraph>
-                I led the development of a substantial technical and design restructure of the products existing enterprise-scale UI. In addition, I applied my UI knowledge to new R&D greenfield initiatives within the company for web & mobile.
-            </BodyParagraph>
-            <BodyParagraph>
-                As part of my work, I developed a visual interface for a credit decision system, and improved the application performance by 30% via conversion to an SPA.
-            </BodyParagraph>
-        </ExperienceEntry>
-
-        <ExperienceEntry org="Five By Five" position="Head of Development" startDate={new Date('2016-01-01')} endDate={new Date('2016-12-01')}>
-            <BodyParagraph>
-                Managing a small team of developers, I am responsible for the technical strategy and delivery of Five By Five's web and mobile projects.
-            </BodyParagraph>
-            <BodyParagraph>
-                I had a key role throughout these projects in communicating with clients and determining their requirements.
-            </BodyParagraph>
-            <BodyParagraph>
-                This remained a very hands on role. I primarily worked with a Node, Express, React and Redux stack to achieve deliverables on tight timescales. This work was very varied and included a social app for wine, calculators for opticians, brand sites for high street stores, customer feedback systems, and more.
-            </BodyParagraph>
-            <BodyParagraph>
-            During this role I introduced the company to CI (Gitlab CI) and server automation (Ansible) as part of a significant dev ops restructure.
-            </BodyParagraph>
-        </ExperienceEntry>
-        <ExperienceEntry org="Five By Five" position="Senior Developer" startDate={new Date('2014-12-01')} endDate={new Date('2016-01-01')}>
-            <BodyParagraph>
-                I contributed to Five By Five's web technology projects for clients such as Activision, 2K, GAP and CooperVision.
-            </BodyParagraph>
-            <BodyParagraph>
-                As Senior Developer, I was involved in all aspects of the software development lifecycle. By utilising my expertise in modern web applications that I bought to the team, I was able to produce new and engaging experiences for Five By Five's many projects.
-                
-                I introduced a Node, Express, React and Redux stack to the team, which became a core part of our work.
-            </BodyParagraph>
-        </ExperienceEntry>
-    </BodySection>
-    <BodySection title="Education">
-        <ExperienceEntry org="University of Southampton" position="Computer Science MEng" startDate={new Date('2009-09-01')} endDate={new Date('2013-08-01')}>
-            <BodyParagraph>
-                I consistently achieved 1st class grades on average for all 4 years of my degree. I won an award for the "Best Final Year Student on the Computer Science & Software Engineering course at University of Southampton" from the British Computer Society Hampshire Branch.
-            </BodyParagraph>
-            <BodyParagraph>
-                In the final masters year, I focused primarily on Web Science and programming the web. The course at the University of Southampton contains strong individual and group elements. From a technical perspective the course focuses primarily on Java, but in the latter years gives a wider variation and focus on web services stacks.
-            </BodyParagraph>
-        </ExperienceEntry>
-        <ExperienceEntry org="School/College" position="UK GCSEs & A-Levels" startDate={new Date('2001-08-01')} endDate={new Date('2009-08-01')}>
-            <BodyParagraph>
-                Despite knowing prospects are unlikely to care, im very proud to have received nine A*'s at GCSE level 🤓. For the A-Level courses I achieved AAAB (full A2) in Physics, Electronics, Computing and Maths respectively.
-            </BodyParagraph>
-        </ExperienceEntry>
-    </BodySection>
-	
-
+    <ExperienceEntry
+      org="Five By Five"
+      position="Head of Development"
+      startDate={new Date('2016-01-01')}
+      endDate={new Date('2016-12-01')}
+    >
+      <BodyParagraph>
+        Managing a small team of developers, I am responsible for the technical
+        strategy and delivery of Five By Five's web and mobile projects.
+      </BodyParagraph>
+      <BodyParagraph>
+        I had a key role throughout these projects in communicating with clients
+        and determining their requirements.
+      </BodyParagraph>
+      <BodyParagraph>
+        This remained a very hands on role. I primarily worked with a Node,
+        Express, React and Redux stack to achieve deliverables on tight
+        timescales. This work was very varied and included a social app for
+        wine, calculators for opticians, brand sites for high street stores,
+        customer feedback systems, and more.
+      </BodyParagraph>
+      <BodyParagraph>
+        During this role I introduced the company to CI (Gitlab CI) and server
+        automation (Ansible) as part of a significant dev ops restructure.
+      </BodyParagraph>
+    </ExperienceEntry>
+    <ExperienceEntry
+      org="Five By Five"
+      position="Senior Developer"
+      startDate={new Date('2014-12-01')}
+      endDate={new Date('2016-01-01')}
+    >
+      <BodyParagraph>
+        I contributed to Five By Five's web technology projects for clients such
+        as Activision, 2K, GAP and CooperVision.
+      </BodyParagraph>
+      <BodyParagraph>
+        As Senior Developer, I was involved in all aspects of the software
+        development lifecycle. By utilising my expertise in modern web
+        applications that I bought to the team, I was able to produce new and
+        engaging experiences for Five By Five's many projects. I introduced a
+        Node, Express, React and Redux stack to the team, which became a core
+        part of our work.
+      </BodyParagraph>
+    </ExperienceEntry>
+  </BodySection>
+  <BodySection title="Education">
+    <ExperienceEntry
+      org="University of Southampton"
+      position="Computer Science MEng"
+      startDate={new Date('2009-09-01')}
+      endDate={new Date('2013-08-01')}
+    >
+      <BodyParagraph>
+        I consistently achieved 1st class grades on average for all 4 years of
+        my degree. I won an award for the "Best Final Year Student on the
+        Computer Science & Software Engineering course at University of
+        Southampton" from the British Computer Society Hampshire Branch.
+      </BodyParagraph>
+      <BodyParagraph>
+        In the final masters year, I focused primarily on Web Science and
+        programming the web. The course at the University of Southampton
+        contains strong individual and group elements. From a technical
+        perspective the course focuses primarily on Java, but in the latter
+        years gives a wider variation and focus on web services stacks.
+      </BodyParagraph>
+    </ExperienceEntry>
+    <ExperienceEntry
+      org="School/College"
+      position="UK GCSEs & A-Levels"
+      startDate={new Date('2001-08-01')}
+      endDate={new Date('2009-08-01')}
+    >
+      <BodyParagraph>
+        Despite knowing prospects are unlikely to care, im very proud to have
+        received nine A*'s at GCSE level 🤓. For the A-Level courses I achieved
+        AAAB (full A2) in Physics, Electronics, Computing and Maths
+        respectively.
+      </BodyParagraph>
+    </ExperienceEntry>
+  </BodySection>
 </Layout>

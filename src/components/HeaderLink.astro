@@ -1,35 +1,39 @@
 ---
-import type { HTMLAttributes } from 'astro/types';
-import { css } from '../styled-system/css';
+import type { HTMLAttributes } from 'astro/types'
+import { css } from '../styled-system/css'
 
-type Props = HTMLAttributes<'a'>;
+type Props = HTMLAttributes<'a'>
 
-const { href, class: className, ...props } = Astro.props;
+const { href, class: className, ...props } = Astro.props
 
-const { pathname } = Astro.url;
-const isActive = href === pathname || href === pathname.replace(/\/$/, '');
+const { pathname } = Astro.url
+const isActive = href === pathname || href === pathname.replace(/\/$/, '')
 ---
 
-<a href={href} data-astro-prefetch="hover" class:list={[className, css({
-	textStyle: 'headerLink',
-	color: 'slate.400',
-	bg: 'slate.900',
-	px: 3,
-	py: 1.5,
-	ml: 3.5 ,
-	borderRadius: 4 ,
-	_hover: {
-		color: 'slate.200',
-		bg: 'slate.800',
-	},
-	_active: {
-		bg: 'slate.500',
-		color: 'slate.50'
-	},
-	_first: {
-		ml: 0
-	},
-	
-})]} {...props} {...(isActive ? {'data-active': true}: {})}>
-	<slot />
+<a
+  href={href}
+  data-astro-prefetch="hover"
+  class:list={[
+    className,
+    css({
+      textStyle: 'headerLink',
+      color: 'slate.400',
+      bg: 'slate.900',
+      px: 3,
+      py: 1.5,
+      borderRadius: 4,
+      _hover: {
+        color: 'slate.200',
+        bg: 'slate.800',
+      },
+      _active: {
+        bg: 'slate.500',
+        color: 'slate.50',
+      },
+    }),
+  ]}
+  {...props}
+  {...isActive ? { 'data-active': true } : {}}
+>
+  <slot />
 </a>

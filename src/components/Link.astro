@@ -1,17 +1,21 @@
 ---
-import type { HTMLAttributes } from 'astro/types';
-import { css } from '../styled-system/css';
+import type { HTMLAttributes } from 'astro/types'
+import { css } from '../styled-system/css'
 
-type Props = HTMLAttributes<'a'>;
+type Props = HTMLAttributes<'a'>
 
-const {  class: className, ...props } = Astro.props;
-
-
+const { class: className, ...props } = Astro.props
 ---
 
-<a class:list={[className, css({
-	textStyle: 'link',
-	color: 'slate.50',
-})]} {...props}>
-	<slot />
+<a
+  class:list={[
+    className,
+    css({
+      textStyle: 'link',
+      color: 'slate.50',
+    }),
+  ]}
+  {...props}
+>
+  <slot />
 </a>
