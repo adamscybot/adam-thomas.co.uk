@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "prepare": "panda codegen",
-    "dev": "astro dev",
+    "dev": "astro dev & astro check --watch",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
@@ -14,6 +14,7 @@
   "dependencies": {
     "@astrojs/check": "^0.3.1",
     "@astrojs/mdx": "^1.1.5",
+    "@astrojs/react": "^3.0.7",
     "@astrojs/rss": "^3.0.0",
     "@astrojs/sitemap": "^3.0.3",
     "@astrojs/vercel": "^5.2.0",
@@ -21,12 +22,17 @@
     "@fontsource-variable/comfortaa": "^5.0.17",
     "@fontsource-variable/inter": "^5.0.15",
     "@fontsource-variable/quicksand": "^5.0.15",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
     "astro": "^3.6.4",
+    "astro-icon": "^0.8.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "typescript": "^5.3.2"
   },
   "devDependencies": {
-    "@pandacss/astro": "^0.20.1",
-    "@pandacss/dev": "^0.20.1",
+    "@pandacss/astro": "^0.21.0",
+    "@pandacss/dev": "^0.21.0",
     "prettier": "^3.1.0",
     "prettier-plugin-astro": "^0.12.2"
   }

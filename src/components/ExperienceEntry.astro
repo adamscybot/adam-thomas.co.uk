@@ -37,7 +37,7 @@ const {
     display: 'flex',
     flexDir: 'column',
     position: 'relative',
-    lg: { flexDir: 'row' },
+    md: { flexDir: 'row' },
     _last: {
       '& [data-connector]': {
         display: 'none',
@@ -46,61 +46,64 @@ const {
   })}
   {...props}
 >
-  <div
-    data-connector="source"
-    class={css({
-      display: 'none',
-      md: {},
-      lg: {
-        display: 'flex',
-        flexDir: 'column',
-        alignItems: 'center',
-        top: '0',
-        bottom: '-10',
-        position: 'absolute',
-        left: '[calc((token(spacing.gutter.gap) * -1) - token(sizes.connector.terminator))]',
-      },
-    })}
-  >
+  <header class={css({ md: { mt: '-5', position: 'relative' } })}>
     <div
-      data-connector-type={transitionType === 'new-role'
-        ? 'discontinuous'
-        : 'continuous'}
+      data-connector="source"
       class={css({
-        h: 'full',
-        "&[data-connector-type='discontinuous']": {
-          w: '[calc(token(sizes.connector.line-width) * 2)]',
-          backgroundImage: `[
+        display: 'none',
+        md: {
+          display: 'flex',
+          flexDir: 'column',
+          alignItems: 'center',
+          top: '0',
+          bottom: '-10',
+          position: 'absolute',
+          right: '[token(spacing.gutter.gap)]',
+        },
+
+        xl: {
+          right: '[unset]',
+          left: '[calc((token(spacing.gutter.gap) * -1) - token(sizes.connector.terminator))]',
+        },
+      })}
+    >
+      <div
+        data-connector-type={transitionType === 'new-role'
+          ? 'discontinuous'
+          : 'continuous'}
+        class={css({
+          h: 'full',
+          "&[data-connector-type='discontinuous']": {
+            w: '[calc(token(sizes.connector.line-width) * 2)]',
+            backgroundImage: `[
           radial-gradient(circle at token(sizes.connector.line-width), token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
           radial-gradient(circle, token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
           radial-gradient(circle at token(sizes.connector.line-width), token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
           radial-gradient(circle, token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width))]`,
-          backgroundPosition: 'right',
-          backgroundSize:
-            '[calc(token(sizes.connector.line-width) * 2) token(spacing.connector.line-dot-gap)]',
-          backgroundRepeat: 'repeat-y',
-        },
+            backgroundPosition: 'right',
+            backgroundSize:
+              '[calc(token(sizes.connector.line-width) * 2) token(spacing.connector.line-dot-gap)]',
+            backgroundRepeat: 'repeat-y',
+          },
 
-        "&[data-connector-type='continuous']": {
-          w: '[calc(token(sizes.connector.line-width))]',
-          background: 'connector.line',
-        },
-      })}
-    >
+          "&[data-connector-type='continuous']": {
+            w: '[calc(token(sizes.connector.line-width))]',
+            background: 'connector.line',
+          },
+        })}
+      >
+      </div>
+      <div class={css({ mt: 'auto', paddingTop: 'connector.line-inset' })}>
+        <Circle
+          size="connector.terminator"
+          bg="bg"
+          bottom="0"
+          borderColor="connector.terminator"
+          borderStyle="solid"
+          borderWidth="[calc(token(sizes.connector.terminator) * token(sizes.connector.terminator-ring))]"
+        />
+      </div>
     </div>
-    <div class={css({ mt: 'auto', paddingTop: 'connector.line-inset' })}>
-      <Circle
-        size="connector.terminator"
-        bg="bg"
-        bottom="0"
-        borderColor="connector.terminator"
-        borderStyle="solid"
-        borderWidth="[calc(token(sizes.connector.terminator) * token(sizes.connector.terminator-ring))]"
-      />
-    </div>
-  </div>
-
-  <header class={css({ lg: { mt: '-5' } })}>
     <div
       class={css({
         bg: 'bg',
@@ -113,13 +116,11 @@ const {
         ml: '-3',
         pl: '3',
         position: 'relative',
-        md: {},
-        lg: {
+        md: {
           mb: '5',
           pl: '0',
-          flexBasis: 'gutter.width',
-          ml: '[calc(token(spacing.gutter.width) * -1)]',
           mr: 'gutter.gap',
+          width: '[token(spacing.gutter.width)]',
           textAlign: 'right',
           position: 'sticky',
           top: '0',
@@ -127,20 +128,57 @@ const {
           alignSelf: 'baseline',
           borderLeftStyle: 'none',
         },
+        xl: {
+          ml: '[calc(token(spacing.gutter.width) * -1)]',
+          flexBasis: 'gutter.width',
+          width: 'auto',
+        },
       })}
     >
+      <BodyHeader
+        element="h3"
+        css={{
+          color: 'slate.300',
+          fontSize: 'sm',
+          mb: '0',
+          textTransform: 'none',
+        }}
+      >
+        {position}<br /><span
+          class={css({
+            fontSize: 'sm',
+            fontWeight: 'medium',
+          })}>{org}</span
+        >
+      </BodyHeader>
+      <p
+        class={css({
+          textStyle: 'body',
+          color: 'text.body',
+          fontSize: 'sm',
+        })}
+      >
+        <FormattedDate date={startDate} /> - {
+          endDate ? <FormattedDate date={endDate} /> : 'Current'
+        }
+      </p>
       <div
         data-connector="destination"
         class={css({
-          position: 'absolute',
           display: 'flex',
-          flexDir: 'row',
-          alignItems: 'center',
-          right: '0',
-          py: 'connector.line-inset',
-          background: 'slate.950',
-          bottom: '0',
-          transform: '[translateY(100%)]',
+          mt: '2',
+          md: {
+            position: 'absolute',
+            display: 'flex',
+            flexDir: 'row',
+            alignItems: 'center',
+            right: '0',
+            py: 'connector.line-inset',
+            background: 'slate.950',
+            bottom: '0',
+            mt: '0',
+            transform: '[translateY(100%)]',
+          },
         })}
       >
         {
@@ -176,36 +214,9 @@ const {
         <Circle
           size="connector.terminator"
           bg="connector.terminator"
-          display={{ base: 'none', lg: 'block' }}
+          display={{ base: 'none', md: 'block' }}
         />
       </div>
-      <BodyHeader
-        element="h3"
-        css={{
-          color: 'slate.300',
-          fontSize: 'sm',
-          mb: '0',
-          textTransform: 'none',
-        }}
-      >
-        {position}<br /><span
-          class={css({
-            fontSize: 'sm',
-            fontWeight: 'medium',
-          })}>{org}</span
-        >
-      </BodyHeader>
-      <p
-        class={css({
-          textStyle: 'body',
-          color: 'text.body',
-          fontSize: 'sm',
-        })}
-      >
-        <FormattedDate date={startDate} /> - {
-          endDate ? <FormattedDate date={endDate} /> : 'Current'
-        }
-      </p>
     </div>
   </header>
   <div class={css({ flex: 'auto' })}>
