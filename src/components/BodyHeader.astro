@@ -1,18 +1,33 @@
 ---
 import type { HTMLAttributes, HTMLTag } from 'astro/types'
 import { css } from '../styled-system/css'
+import type { SystemStyleObject } from '../styled-system/types'
 
-type Props = Pick<HTMLAttributes<'h2'>, 'class'> & { element?: HTMLTag }
+type Props = HTMLAttributes<'h2'> & {
+  element?: HTMLTag
+  css?: SystemStyleObject
+}
 
-const { class: className, element: Element = 'h2', ...props } = Astro.props
+const { css: cssProp, element: Element = 'h2', ...props } = Astro.props
 ---
 
-<Element
-  class:list={[
-    className,
-    css({ textStyle: 'header', color: 'text.header', mb: 2 }),
-  ]}
-  {...props}
->
-  <slot />
-</Element>
+{
+  (() => {
+    return (
+      // @ts-expect-error
+      <Element
+        class={css(
+          {
+            textStyle: 'header',
+            color: 'text.header',
+            mb: '10',
+          },
+          cssProp,
+        )}
+        {...props}
+      >
+        <slot />
+      </Element>
+    )
+  })()
+}

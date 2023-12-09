@@ -13,20 +13,16 @@ import { css } from '../styled-system/css'
   </head>
   <body
     class={css({
-      maxW: 1000,
-      px: 10,
-      py: 20,
+      maxW: '4xl',
+      px: '10',
+      py: '20',
       mx: 'auto',
       bg: 'bg',
       overflowY: 'scroll',
-      xs: {
-        px: 10,
-        py: 20,
-      },
     })}
   >
     <Header title={SITE_TITLE} />
-    <main class={css({ mt: 12, position: 'relative' })}>
+    <main class={css({ mt: '12', position: 'relative' })}>
       <slot />
     </main>
     <Footer />

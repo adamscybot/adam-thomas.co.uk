@@ -1,0 +1,35 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { css } from '../styled-system/css'
+import { Icon } from 'astro-icon'
+
+type Props = HTMLAttributes<'div'> & { icon?: string }
+
+const { class: className, icon, ...props } = Astro.props
+---
+
+<div
+  class={css({
+    textStyle: 'tag',
+    color: 'text.tag',
+    py: '0.5',
+    px: '2',
+    borderRadius: 'sm',
+    mr: 'connector.terminator-tag-gap',
+    display: 'flex',
+    flexDir: 'row',
+    whiteSpace: 'nowrap',
+    alignItems: 'center',
+  })}
+  {...props}
+>
+  {
+    icon && (
+      <Icon
+        name={icon}
+        class={css({ h: '2.5', mr: '1.5', strokeWidth: '[2px]' })}
+      />
+    )
+  }
+  <slot />
+</div>

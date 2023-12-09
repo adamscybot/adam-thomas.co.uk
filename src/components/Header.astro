@@ -1,19 +1,21 @@
 ---
-import HeaderLink from './HeaderLink.astro'
+import PageLink from './PageLink.astro'
 import { css } from '../styled-system/css'
 ---
 
 <header>
-  <div class={css({ mb: 3 })}>
-    <h1 class={css({ textStyle: 'pageTitle', color: 'text.pageTitle', mb: 2 })}>
+  <div class={css({ mb: '3' })}>
+    <h1
+      class={css({ textStyle: 'pageTitle', color: 'text.pageTitle', mb: '2' })}
+    >
       Adam Thomas.
     </h1>
-    <p class={css({ textStyle: 'tagline', color: 'text.tagline', maxW: 360 })}>
+    <p class={css({ textStyle: 'tagline', color: 'text.tagline', maxW: '96' })}>
       Experienced & collaborative tech lead who also enjoys building & managing
       great teams, with a front end spin.
     </p>
   </div>
-  <div class={css({ display: 'flex', flexDir: 'row', columnGap: 3 })}>
+  <div class={css({ display: 'flex', flexDir: 'row', columnGap: '3' })}>
     <a
       href="https://github.com/adamscybot"
       target="_blank"
@@ -53,16 +55,16 @@ import { css } from '../styled-system/css'
   </div>
   <nav
     class={css({
-      mt: 16,
+      mt: '16',
       display: 'flex',
       flexDir: 'row',
       flexWrap: 'wrap',
-      columnGap: 3,
-      rowGap: 3,
+      columnGap: '3',
+      rowGap: '3',
     })}
   >
-    <HeaderLink href="/">About</HeaderLink>
-    <HeaderLink href="/experience">Experience</HeaderLink>
-    <HeaderLink href="/blog">Thoughts</HeaderLink>
+    <PageLink href="/">About</PageLink>
+    <PageLink href="/experience">Experience</PageLink>
+    <PageLink href="/blog">Thoughts</PageLink>
   </nav>
 </header>
