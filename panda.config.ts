@@ -33,7 +33,7 @@ export const textStyles = defineTextStyles({
     value: {
       fontFamily: 'inter',
       fontWeight: '700',
-      fontSize: 'sm',
+      fontSize: '0.8rem',
       lineHeight: '1.35',
       textTransform: 'uppercase',
       xs: {
@@ -145,7 +145,7 @@ export default defineConfig({
         },
       },
       breakpoints: {
-        // Width at which nav is on one line with larger padding
+        xxs: '355px',
         xs: '430px',
         xl: '1200px',
         '2xl': '1320px',
