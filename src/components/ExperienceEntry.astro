@@ -19,6 +19,7 @@ type Props = HTMLAttributes<'section'> & {
   startDate: Date
   endDate?: Date
   transitionType?: ExperienceTransitionType
+  animationIndex: number
 }
 
 const {
@@ -27,11 +28,13 @@ const {
   startDate,
   endDate,
   transitionType = 'none',
+  animationIndex,
   ...props
 } = Astro.props
 ---
 
 <section
+  data-experience-entry={animationIndex}
   class={css({
     mb: '16',
     display: 'flex',
@@ -72,14 +75,22 @@ const {
           ? 'discontinuous'
           : 'continuous'}
         class={css({
+          transition: '[0.5s transform linear]',
+          transform: '[scale(0)]',
+          transformOrigin: 'top',
           h: 'full',
+
+          '[data-visible] &': {
+            transform: '[scale(1)]',
+          },
+
           "&[data-connector-type='discontinuous']": {
             w: '[calc(token(sizes.connector.line-width) * 2)]',
             backgroundImage: `[
-          radial-gradient(circle at token(sizes.connector.line-width), token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
-          radial-gradient(circle, token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
-          radial-gradient(circle at token(sizes.connector.line-width), token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
-          radial-gradient(circle, token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width))]`,
+              radial-gradient(circle at token(sizes.connector.line-width), token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
+              radial-gradient(circle, token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
+              radial-gradient(circle at token(sizes.connector.line-width), token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
+              radial-gradient(circle, token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width))]`,
             backgroundPosition: 'right',
             backgroundSize:
               '[calc(token(sizes.connector.line-width) * 2) token(spacing.connector.line-dot-gap)]',
@@ -93,7 +104,20 @@ const {
         })}
       >
       </div>
-      <div class={css({ mt: 'auto', paddingTop: 'connector.line-inset' })}>
+      <div
+        data-lol
+        class={css({
+          mt: 'auto',
+          paddingTop: 'connector.line-inset',
+          transition: '[0.5s transform ease 0.5s, 0.5s opacity ease 0.5s]',
+          transform: '[translateX(-50px)]',
+          opacity: '[0]',
+          '[data-visible] &': {
+            transform: '[translateX(0)]',
+            opacity: '[1]',
+          },
+        })}
+      >
         <Circle
           size="connector.terminator"
           bg="bg"
@@ -116,6 +140,7 @@ const {
         ml: '-3',
         pl: '3',
         position: 'relative',
+
         md: {
           mb: '5',
           pl: '0',
@@ -135,91 +160,118 @@ const {
         },
       })}
     >
-      <BodyHeader
-        element="h3"
-        css={{
-          color: 'slate.300',
-          fontSize: 'sm',
-          mb: '0',
-          textTransform: 'none',
-        }}
-      >
-        {position}<br /><span
-          class={css({
-            fontSize: 'sm',
-            fontWeight: 'medium',
-          })}>{org}</span
-        >
-      </BodyHeader>
-      <p
-        class={css({
-          textStyle: 'body',
-          color: 'text.body',
-          fontSize: 'sm',
-        })}
-      >
-        <FormattedDate date={startDate} /> - {
-          endDate ? <FormattedDate date={endDate} /> : 'Current'
-        }
-      </p>
       <div
-        data-connector="destination"
         class={css({
           display: 'flex',
-          mt: '2',
-          md: {
-            position: 'absolute',
-            display: 'flex',
-            flexDir: 'row',
-            alignItems: 'center',
-            right: '0',
-            py: 'connector.line-inset',
-            background: 'slate.950',
-            bottom: '0',
-            mt: '0',
-            transform: '[translateY(100%)]',
+          flexDir: 'column',
+          transition: '[0.5s transform ease, 0.5s opacity ease]',
+          transitionDelay: 'slower',
+          transform: '[translateY(-100px)]',
+          opacity: '[0]',
+
+          '[data-visible] &': {
+            transitionDelay: 'slower',
+            transform: '[translateY(0)]',
+            opacity: '[1]',
           },
         })}
       >
-        {
-          transitionType === 'promotion' && (
-            <Tag
-              icon="teenyicons:double-caret-up-outline"
-              style={{ background: token('colors.green.900') }}
-            >
-              Promoted
-            </Tag>
-          )
-        }
-        {
-          transitionType === 'acquisition' && (
-            <Tag
-              icon="teenyicons:git-merge-solid"
-              style={{ background: token('colors.blue.900') }}
-            >
-              Acquired
-            </Tag>
-          )
-        }
-        {
-          transitionType === 'new-role' && (
-            <Tag
-              icon="teenyicons:refresh-outline"
-              style={{ background: token('colors.purple.900') }}
-            >
-              New role
-            </Tag>
-          )
-        }
-        <Circle
-          size="connector.terminator"
-          bg="connector.terminator"
-          display={{ base: 'none', md: 'block' }}
-        />
+        <BodyHeader
+          element="h3"
+          css={{
+            color: 'slate.300',
+            fontSize: 'sm',
+            mb: '0',
+            textTransform: 'none',
+          }}
+        >
+          {position}<br /><span
+            class={css({
+              fontSize: 'sm',
+              fontWeight: 'medium',
+            })}>{org}</span
+          >
+        </BodyHeader>
+        <p
+          class={css({
+            textStyle: 'body',
+            color: 'text.body',
+            fontSize: 'sm',
+          })}
+        >
+          <FormattedDate date={startDate} /> - {
+            endDate ? <FormattedDate date={endDate} /> : 'Current'
+          }
+        </p>
+        <div
+          data-connector="destination"
+          class={css({
+            display: 'flex',
+            mt: '2',
+            md: {
+              position: 'absolute',
+              display: 'flex',
+              flexDir: 'row',
+              alignItems: 'center',
+              right: '0',
+              py: 'connector.line-inset',
+              background: 'slate.950',
+              bottom: '0',
+              mt: '0',
+              transform: '[translateY(100%)]',
+            },
+          })}
+        >
+          {
+            transitionType === 'promotion' && (
+              <Tag
+                icon="teenyicons:double-caret-up-outline"
+                style={{ background: token('colors.green.900') }}
+              >
+                Promoted
+              </Tag>
+            )
+          }
+          {
+            transitionType === 'acquisition' && (
+              <Tag
+                icon="teenyicons:git-merge-solid"
+                style={{ background: token('colors.blue.900') }}
+              >
+                Acquired
+              </Tag>
+            )
+          }
+          {
+            transitionType === 'new-role' && (
+              <Tag
+                icon="teenyicons:refresh-outline"
+                style={{ background: token('colors.purple.900') }}
+              >
+                New role
+              </Tag>
+            )
+          }
+          <Circle
+            size="connector.terminator"
+            bg="connector.terminator"
+            display={{ base: 'none', md: 'block' }}
+          />
+        </div>
       </div>
     </div>
   </header>
-  <div class={css({ flex: 'auto' })}>
+
+  <div
+    class={css({
+      flex: 'auto',
+      transition: '[0.5s transform ease, 0.5s opacity ease]',
+      opacity: '[0.2]',
+      '[data-visible] &': {
+        opacity: '[1]',
+      },
+    })}
+  >
     <slot />
   </div>
 </section>

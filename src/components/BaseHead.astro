@@ -1,5 +1,6 @@
 ---
-import '@fontsource-variable/inter'
+import interNormal from '@fontsource-variable/inter/files/inter-latin-standard-normal.woff2'
+import interNormalWeights from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2'
 import { ViewTransitions } from 'astro:transitions'
 
 interface Props {
@@ -26,6 +27,10 @@ const { title, description, image = '/og-default.png' } = Astro.props
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+
+<!-- Prefetch -->
+<link rel="preload" as="font" href={interNormal} type="font/woff2" />
+<link rel="preload" as="font" href={interNormalWeights} type="font/woff2" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />

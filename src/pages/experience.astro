@@ -6,6 +6,109 @@ import ExperienceEntry from '../components/ExperienceEntry.astro'
 import Link from '../components/Link.astro'
 ---
 
+<script>
+  // Having a script that reaches into children like this feels odd as it's something you wouldn't do in React,
+  // but I'm sticking to pure Astro as much as possible.
+
+  const EXPERIENCE_ATTR = 'experience-entry'
+  const THRESHOLD = 0.7
+
+  let animateToTargetIndex: number = -1
+  let animationCompleteIndex: number = -1
+
+  const isAnimationInProgress = () =>
+    animationCompleteIndex < animateToTargetIndex
+
+  const getAllAnimatedElements = () =>
+    document.querySelectorAll<HTMLElement>(`[data-${EXPERIENCE_ATTR}]`)
+
+  const getElementAtAnimationIndex = (index: number) => {
+    const element = document.querySelector<HTMLElement>(
+      `[data-${EXPERIENCE_ATTR}='${index}']`,
+    )
+    if (!element)
+      throw new Error(`Couldn't fine element with animation index ${index}`)
+
+    return element
+  }
+
+  const getAnimationIndexOfElement = (element: HTMLElement) =>
+    parseInt(element.dataset.experienceEntry ?? '-1')
+
+  const triggerAnimation = (elment: HTMLElement) => {
+    elment.dataset.visible = 'true'
+  }
+
+  const handleTransitionEnd = function (this: HTMLElement) {
+    const animationIndex = getAnimationIndexOfElement(this)
+
+    animationCompleteIndex = animateToTargetIndex
+
+    if (animationIndex >= animateToTargetIndex) return
+
+    const nextElToAnimate = getElementAtAnimationIndex(animationIndex + 1)
+    triggerAnimation(nextElToAnimate)
+
+    this.removeEventListener('transitionend', handleTransitionEnd)
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const animateTo = entries.reduce<{
+        element: HTMLElement | null
+        animationIndex: number
+      }>(
+        (furthestTarget, currentEntry) => {
+          if (!currentEntry.isIntersecting) return furthestTarget
+          const target = currentEntry.target as HTMLElement
+          const currentAnimationIndex = getAnimationIndexOfElement(target)
+
+          observer.unobserve(target)
+
+          if (currentAnimationIndex <= furthestTarget.animationIndex) {
+            return furthestTarget
+          }
+
+          return {
+            element: target,
+            animationIndex: currentAnimationIndex,
+          }
+        },
+        { element: null, animationIndex: -1 },
+      )
+
+      if (animateTo.animationIndex > animateToTargetIndex) {
+        if (!isAnimationInProgress()) {
+          triggerAnimation(
+            getElementAtAnimationIndex(animationCompleteIndex + 1),
+          )
+        }
+        animateToTargetIndex = animateTo.animationIndex
+      }
+    },
+    {
+      root: null,
+      rootMargin: '0px',
+      threshold: THRESHOLD,
+    },
+  )
+
+  const resetAnimations = () => {
+    if (window.matchMedia('prefers-reduced-motion: reduce').matches) return
+
+    animateToTargetIndex = -1
+    animationCompleteIndex = -1
+
+    const animatedElements = getAllAnimatedElements()
+    animatedElements.forEach((el) => {
+      el.addEventListener('transitionend', handleTransitionEnd)
+      observer.observe(el)
+    })
+  }
+
+  document.addEventListener('astro:page-load', resetAnimations, { once: false })
+</script>
+
 <Layout>
   <BodySection title="Employment">
     <ExperienceEntry
@@ -13,6 +116,7 @@ import Link from '../components/Link.astro'
       position="Engineering Manager"
       startDate={new Date('2023-08-01')}
       transitionType="acquisition"
+      animationIndex={0}
     >
       <BodyParagraph>
         Privitar was <Link
@@ -36,6 +140,7 @@ import Link from '../components/Link.astro'
       startDate={new Date('2021-08-01')}
       endDate={new Date('2023-08-01')}
       transitionType="promotion"
+      animationIndex={1}
     >
       <BodyParagraph>
         My role expanded to include Engineering Management responsbilities. I am
@@ -66,6 +171,7 @@ import Link from '../components/Link.astro'
       startDate={new Date('2019-08-01')}
       endDate={new Date('2021-08-01')}
       transitionType="new-role"
+      animationIndex={2}
     >
       <BodyParagraph>
         I built up the companies UI team from scratch, leading work on
@@ -97,6 +203,7 @@ import Link from '../components/Link.astro'
       startDate={new Date('2017-11-01')}
       endDate={new Date('2019-08-01')}
       transitionType="promotion"
+      animationIndex={3}
     >
       <BodyParagraph>
         I continued my responsibilities as lead for the companies UI developer
@@ -121,6 +228,7 @@ import Link from '../components/Link.astro'
       startDate={new Date('2017-01-01')}
       endDate={new Date('2017-11-01')}
       transitionType="new-role"
+      animationIndex={4}
     >
       <BodyParagraph>
         I joined Alfa's R&D team as a JavaScript expert to work on the front end
@@ -150,6 +258,7 @@ import Link from '../components/Link.astro'
       startDate={new Date('2016-01-01')}
       endDate={new Date('2016-12-01')}
       transitionType="promotion"
+      animationIndex={5}
     >
       <BodyParagraph>
         Managing a small team of developers, I am responsible for the technical
@@ -177,6 +286,7 @@ import Link from '../components/Link.astro'
       startDate={new Date('2014-12-01')}
       endDate={new Date('2016-01-01')}
       transitionType="new-role"
+      animationIndex={6}
     >
       <BodyParagraph>
         I contributed to Five By Five's web technology projects for clients such
@@ -197,6 +307,7 @@ import Link from '../components/Link.astro'
       startDate={new Date('2013-07-01')}
       endDate={new Date('2014-12-01')}
       transitionType="new-role"
+      animationIndex={7}
     >
       <BodyParagraph>
         Ad Venture was an early stage startup that provided targeted, frame
@@ -224,6 +335,7 @@ import Link from '../components/Link.astro'
       position="Computer Science MEng"
       startDate={new Date('2009-09-01')}
       endDate={new Date('2013-08-01')}
+      animationIndex={8}
     >
       <BodyParagraph>
         I consistently achieved 1st class grades on average for all 4 years of
@@ -244,6 +356,7 @@ import Link from '../components/Link.astro'
       position="UK GCSEs & A-Levels"
       startDate={new Date('2001-08-01')}
       endDate={new Date('2009-08-01')}
+      animationIndex={9}
     >
       <BodyParagraph>
         Despite knowing prospects are unlikely to care, im very proud to have

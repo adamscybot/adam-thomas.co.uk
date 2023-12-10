@@ -23,16 +23,7 @@ dependencies:
   '@astrojs/vercel':
     specifier: ^5.2.0
     version: 5.2.0(astro@3.6.4)
-  '@fontsource-variable/chivo':
-    specifier: ^5.0.9
-    version: 5.0.9
-  '@fontsource-variable/comfortaa':
-    specifier: ^5.0.17
-    version: 5.0.17
   '@fontsource-variable/inter':
-    specifier: ^5.0.15
-    version: 5.0.15
-  '@fontsource-variable/quicksand':
     specifier: ^5.0.15
     version: 5.0.15
   '@types/react':
@@ -1068,20 +1059,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@fontsource-variable/chivo@5.0.9:
-    resolution: {integrity: sha512-xWJx2Qe8Y/7l4bYcnurcVZfame/cD920TK+YY0exTIG2kZp8osA2cAa7jrspV8sTWxRbWa3v3roftXch3ZnH6A==}
-    dev: false
-
-  /@fontsource-variable/comfortaa@5.0.17:
-    resolution: {integrity: sha512-7kqvDL/nigE8O+TNbor/ouSe/xJhhTOIzYaLA+8hU1XTbMvOY+ksMxZwKEWumRSsIabOXzBjcdM2bWMctlua4g==}
-    dev: false
-
   /@fontsource-variable/inter@5.0.15:
     resolution: {integrity: sha512-CdQPQQgOVxg6ifmbrqYZeUqtQf7p2wPn6EvJ4M+vdNnsmYZgYwPPPQDNlIOU7LCUlSGaN26v6H0uA030WKn61g==}
-    dev: false
-
-  /@fontsource-variable/quicksand@5.0.15:
-    resolution: {integrity: sha512-/urIRsn73wwZY+lqcN5+v9COW0+anF9WNBS/1fZoh8QuGbTnw2t1A63l/GlUV0ZgDXujtkdgoZui+Sng5sJ+5Q==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
