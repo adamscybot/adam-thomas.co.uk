@@ -20,6 +20,7 @@ type Props = HTMLAttributes<'section'> & {
   endDate?: Date
   transitionType?: ExperienceTransitionType
   animationIndex: number
+  last?: boolean
 }
 
 const animationEndProperties = css.raw({
@@ -45,6 +46,7 @@ const {
   endDate,
   transitionType = 'none',
   animationIndex,
+  last = false,
   ...props
 } = Astro.props
 ---
@@ -89,7 +91,7 @@ const {
       })}
     >
       <div
-        data-animation-ends-group
+        {...!last ? { 'data-animation-ends-group': true } : {}}
         data-connector-type={transitionType === 'new-role'
           ? 'discontinuous'
           : 'continuous'}
@@ -183,6 +185,7 @@ const {
       })}
     >
       <div
+        {...last ? { 'data-animation-ends-group': true } : {}}
         class={css(
           {
             display: 'flex',
