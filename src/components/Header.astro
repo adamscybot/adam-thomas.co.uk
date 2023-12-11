@@ -18,25 +18,28 @@ import { css } from '../styled-system/css'
   </div>
   <div class={css({ display: 'flex', flexDir: 'row', columnGap: '3' })}>
     <a
+      href="https://www.linkedin.com/in/adamthomas1/"
+      target="_blank"
+      aria-label="Visit my LinkedIn"
+      class={css({
+        h: '16',
+        color: 'slate.400',
+        _hover: { color: 'slate.100' },
+      })}
+    >
+      <Icon name="icomoon-free:linkedin" class={css({ w: '10' })} />
+    </a>
+    <a
       href="https://github.com/adamscybot"
       target="_blank"
       aria-label="Visit my GitHub"
       class={css({ color: 'slate.400', _hover: { color: 'slate.100' } })}
     >
       <Icon
-        name="ph:linkedin-logo-fill"
-        class={css({ color: 'slate.400', _hover: { color: 'slate.100' } })}
-      />
-    </a>
-    <a
-      href="https://www.linkedin.com/in/adamthomas1/"
-      target="_blank"
-      aria-label="Visit my LinkedIn"
-      class={css({ color: 'slate.400', _hover: { color: 'slate.100' } })}
-    >
-      <Icon
-        name="ph:linkedin-logo-fill"
-        class={css({ color: 'slate.400', _hover: { color: 'slate.100' } })}
+        name="icomoon-free:github"
+        class={css({
+          w: '10',
+        })}
       />
     </a>
   </div>

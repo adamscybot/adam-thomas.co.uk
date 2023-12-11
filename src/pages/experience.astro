@@ -6,12 +6,25 @@ import ExperienceEntry from '../components/ExperienceEntry.astro'
 import Link from '../components/Link.astro'
 ---
 
+{
+  /*
+   * The experience page has a "timeline" type view and the animations are designed to enhance that feeling
+   * by way of subtle motion downwards as the user scrolls. The animation avoids wasting user time by acting intelligently
+   * if the user enters the page further down (fragment URL or maintaining scroll posiiton on refresh) by intelligently
+   * disabling animations "above the fold" and so animating downwards only from where they started.
+   *
+   * The behaviour is quite specific and so I wrote this custom animation code for scroll triggered animations.
+   * No JS and prefer reduced motion also supported.
+   *
+   * Having a script that reaches into children like this feels odd as it's something you wouldn't do in React,
+   * but I'm sticking to pure Astro as much as possible. Decided to hand roll this for maximum performance and to get the
+   * desired behaviour just right. For example, we are not wasting the users time if they enter the page on a scrolled down state. */
+}
 <script>
-  // Having a script that reaches into children like this feels odd as it's something you wouldn't do in React,
-  // but I'm sticking to pure Astro as much as possible. Decided to hand roll this for maximum performance and to get the
-  // desired behaviour just right. For example, we are not wasting the users time if they enter the page on a scrolled down state.
-
+  /* Identified the parent DOM node that acts as set of elements that are animated  */
   const EXPERIENCE_ATTR = 'experience-entry'
+
+  /* Threshold option used with `IntersectionObserver` */
   const THRESHOLD = 0.7
 
   let animateToTargetIndex: number = -1
