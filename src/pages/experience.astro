@@ -22,10 +22,10 @@ import Link from '../components/Link.astro'
 }
 <script>
   /* Identified the parent DOM node that acts as set of elements that are animated  */
-  const EXPERIENCE_ATTR = 'experience-entry'
+  const ANIMATION_GROUP_ATTR = 'animation-group'
 
   /* Threshold option used with `IntersectionObserver` */
-  const THRESHOLD = 0.7
+  const THRESHOLD = 0.8
 
   let animateToTargetIndex: number = -1
   let animationCompleteIndex: number = -1
@@ -35,11 +35,11 @@ import Link from '../components/Link.astro'
     animationCompleteIndex < animateToTargetIndex
 
   const getAllAnimatedElements = () =>
-    document.querySelectorAll<HTMLElement>(`[data-${EXPERIENCE_ATTR}]`)
+    document.querySelectorAll<HTMLElement>(`[data-${ANIMATION_GROUP_ATTR}]`)
 
   const getElementAtAnimationIndex = (index: number) => {
     const element = document.querySelector<HTMLElement>(
-      `[data-${EXPERIENCE_ATTR}='${index}']`,
+      `[data-${ANIMATION_GROUP_ATTR}='${index}']`,
     )
     if (!element)
       throw new Error(`Couldn't fine element with animation index ${index}`)
@@ -59,13 +59,20 @@ import Link from '../components/Link.astro'
     })
 
   const getAnimationIndexOfElement = (element: HTMLElement) =>
-    parseInt(element.dataset.experienceEntry ?? '-1')
+    parseInt(element.dataset.animationGroup ?? '-1')
 
-  const triggerAnimation = (elment: HTMLElement) => {
-    elment.dataset.animate = 'true'
+  const triggerAnimation = (element: HTMLElement) => {
+    element.dataset.animate = 'true'
   }
 
-  const handleTransitionEnd = function (this: HTMLElement) {
+  const handleTransitionEnd = function (
+    this: HTMLElement,
+    event: TransitionEvent,
+  ) {
+    console.log((event.target as HTMLElement).dataset)
+    if ((event.target as HTMLElement).dataset.animationEndsGroup === undefined)
+      return
+
     const animationIndex = getAnimationIndexOfElement(this)
     animationCompleteIndex = animationIndex
 
@@ -83,13 +90,14 @@ import Link from '../components/Link.astro'
   }
 
   /**
-   * When the user initially loads the page, it could be much further down due to
+   * When the user loads the page, it could be much further down due to
    * scroll restoration or because they are navigating to a fragment.
    *
    * We want the user to see the animation quickly after load, and we want
    * to disable (force animations to end state) the animation of elements
    * that were further up the page since the experience timeline is temporal
    * and the animations only make sense when progressing down the page.
+   *
    */
   const processInitialIntersection = (offsets: VisibilityOffsets) => {
     initialVisibilityComplete = true

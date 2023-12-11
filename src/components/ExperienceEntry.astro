@@ -50,7 +50,7 @@ const {
 ---
 
 <section
-  data-experience-entry={animationIndex}
+  data-animation-group={animationIndex}
   class={css({
     mb: '16',
     display: 'flex',
@@ -65,7 +65,9 @@ const {
   })}
   {...props}
 >
-  <header class={css({ md: { mt: '-5', position: 'relative' } })}>
+  <header
+    class={css({ md: { mt: '-5', position: 'relative', display: 'initial' } })}
+  >
     <div
       data-connector="source"
       class={css({
@@ -87,6 +89,7 @@ const {
       })}
     >
       <div
+        data-animation-ends-group
         data-connector-type={transitionType === 'new-role'
           ? 'discontinuous'
           : 'continuous'}
@@ -185,11 +188,11 @@ const {
             display: 'flex',
             flexDir: 'column',
 
-            transitionDelay: 'slower',
             transform: '[translateY(-100px)]',
             opacity: '[0]',
 
             '[data-animate] &': {
+              transitionDelay: 'slower',
               transition: '[0.5s transform ease, 0.5s opacity ease]',
             },
           },
