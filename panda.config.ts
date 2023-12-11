@@ -96,6 +96,7 @@ export default defineConfig({
     './pages/**/*.{ts,tsx,js,jsx,astro}',
   ],
   exclude: [],
+  hash: true,
   strictTokens: true,
   theme: {
     extend: {

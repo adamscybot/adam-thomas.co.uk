@@ -8,13 +8,15 @@ import Link from '../components/Link.astro'
 
 <script>
   // Having a script that reaches into children like this feels odd as it's something you wouldn't do in React,
-  // but I'm sticking to pure Astro as much as possible.
+  // but I'm sticking to pure Astro as much as possible. Decided to hand roll this for maximum performance and to get the
+  // desired behaviour just right. For example, we are not wasting the users time if they enter the page on a scrolled down state.
 
   const EXPERIENCE_ATTR = 'experience-entry'
   const THRESHOLD = 0.7
 
   let animateToTargetIndex: number = -1
   let animationCompleteIndex: number = -1
+  let initialVisibilityComplete: boolean = false
 
   const isAnimationInProgress = () =>
     animationCompleteIndex < animateToTargetIndex
@@ -32,17 +34,27 @@ import Link from '../components/Link.astro'
     return element
   }
 
+  const getElementsUpToAnimationIndex = (index: number) =>
+    [...Array(animationCompleteIndex + 1).keys()].map((index) =>
+      getElementAtAnimationIndex(index),
+    )
+
+  const skipAnimationForElements = (elements: HTMLElement[]) =>
+    elements.forEach((el) => {
+      el.removeEventListener('transitionend', handleTransitionEnd)
+      el.dataset.animateDisable = 'true'
+    })
+
   const getAnimationIndexOfElement = (element: HTMLElement) =>
     parseInt(element.dataset.experienceEntry ?? '-1')
 
   const triggerAnimation = (elment: HTMLElement) => {
-    elment.dataset.visible = 'true'
+    elment.dataset.animate = 'true'
   }
 
   const handleTransitionEnd = function (this: HTMLElement) {
     const animationIndex = getAnimationIndexOfElement(this)
-
-    animationCompleteIndex = animateToTargetIndex
+    animationCompleteIndex = animationIndex
 
     if (animationIndex >= animateToTargetIndex) return
 
@@ -52,38 +64,70 @@ import Link from '../components/Link.astro'
     this.removeEventListener('transitionend', handleTransitionEnd)
   }
 
+  type VisibilityOffsets = {
+    lastVisible: number
+    firstVisible: number
+  }
+
+  /**
+   * When the user initially loads the page, it could be much further down due to
+   * scroll restoration or because they are navigating to a fragment.
+   *
+   * We want the user to see the animation quickly after load, and we want
+   * to disable (force animations to end state) the animation of elements
+   * that were further up the page since the experience timeline is temporal
+   * and the animations only make sense when progressing down the page.
+   */
+  const processInitialIntersection = (offsets: VisibilityOffsets) => {
+    initialVisibilityComplete = true
+
+    if (offsets.firstVisible > 0) {
+      animationCompleteIndex = Math.max(0, offsets.firstVisible - 1)
+      animateToTargetIndex = animationCompleteIndex
+      skipAnimationForElements(
+        getElementsUpToAnimationIndex(animationCompleteIndex),
+      )
+    }
+  }
+
   const observer = new IntersectionObserver(
     (entries) => {
-      const animateTo = entries.reduce<{
-        element: HTMLElement | null
-        animationIndex: number
+      const offsets = entries.reduce<{
+        lastVisible: number
+        firstVisible: number
       }>(
         (furthestTarget, currentEntry) => {
           if (!currentEntry.isIntersecting) return furthestTarget
+          let newOffsets = furthestTarget
+
           const target = currentEntry.target as HTMLElement
           const currentAnimationIndex = getAnimationIndexOfElement(target)
-
           observer.unobserve(target)
 
-          if (currentAnimationIndex <= furthestTarget.animationIndex) {
-            return furthestTarget
+          if (furthestTarget.firstVisible === -1) {
+            newOffsets = { ...newOffsets, firstVisible: currentAnimationIndex }
           }
 
-          return {
-            element: target,
-            animationIndex: currentAnimationIndex,
+          if (currentAnimationIndex > furthestTarget.lastVisible) {
+            newOffsets = { ...newOffsets, lastVisible: currentAnimationIndex }
           }
+
+          return newOffsets
         },
-        { element: null, animationIndex: -1 },
+        { lastVisible: -1, firstVisible: -1 },
       )
 
-      if (animateTo.animationIndex > animateToTargetIndex) {
+      if (!initialVisibilityComplete) {
+        processInitialIntersection(offsets)
+      }
+
+      if (offsets.lastVisible > animateToTargetIndex) {
         if (!isAnimationInProgress()) {
           triggerAnimation(
             getElementAtAnimationIndex(animationCompleteIndex + 1),
           )
         }
-        animateToTargetIndex = animateTo.animationIndex
+        animateToTargetIndex = offsets.lastVisible
       }
     },
     {
@@ -94,7 +138,7 @@ import Link from '../components/Link.astro'
   )
 
   const resetAnimations = () => {
-    if (window.matchMedia('prefers-reduced-motion: reduce').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     animateToTargetIndex = -1
     animationCompleteIndex = -1
@@ -106,6 +150,7 @@ import Link from '../components/Link.astro'
     })
   }
 
+  // Handle both full page refresh and in-app navigation provided by Astro View Transitions.
   document.addEventListener('astro:page-load', resetAnimations, { once: false })
 </script>
 

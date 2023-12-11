@@ -22,6 +22,22 @@ type Props = HTMLAttributes<'section'> & {
   animationIndex: number
 }
 
+const animationEndProperties = css.raw({
+  opacity: '[1]',
+  transform: '[translateX(0px) translateY(0px) scale(1)]',
+})
+
+const animationEndRules = css.raw({
+  'body:has([data-javascript-disabled]) &, [data-animate] &, [data-animate-disable] &':
+    {
+      ...animationEndProperties,
+    },
+
+  _motionReduce: {
+    ...animationEndProperties,
+  },
+})
+
 const {
   org,
   position,
@@ -74,49 +90,52 @@ const {
         data-connector-type={transitionType === 'new-role'
           ? 'discontinuous'
           : 'continuous'}
-        class={css({
-          transition: '[0.5s transform linear]',
-          transform: '[scale(0)]',
-          transformOrigin: 'top',
-          h: 'full',
+        class={css(
+          {
+            transform: '[translateX(0) translateY(0) scale(0)]',
+            transformOrigin: 'top',
+            h: 'full',
 
-          '[data-visible] &': {
-            transform: '[scale(1)]',
-          },
+            '[data-animate] &': {
+              transition: '[0.5s transform linear]',
+            },
 
-          "&[data-connector-type='discontinuous']": {
-            w: '[calc(token(sizes.connector.line-width) * 2)]',
-            backgroundImage: `[
+            "&[data-connector-type='discontinuous']": {
+              w: '[calc(token(sizes.connector.line-width) * 2)]',
+              backgroundImage: `[
               radial-gradient(circle at token(sizes.connector.line-width), token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
               radial-gradient(circle, token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
               radial-gradient(circle at token(sizes.connector.line-width), token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width)),
               radial-gradient(circle, token(colors.connector.line) calc(token(sizes.connector.line-width) / 2), rgba(255,255,255,0) token(sizes.connector.line-width))]`,
-            backgroundPosition: 'right',
-            backgroundSize:
-              '[calc(token(sizes.connector.line-width) * 2) token(spacing.connector.line-dot-gap)]',
-            backgroundRepeat: 'repeat-y',
-          },
+              backgroundPosition: 'right',
+              backgroundSize:
+                '[calc(token(sizes.connector.line-width) * 2) token(spacing.connector.line-dot-gap)]',
+              backgroundRepeat: 'repeat-y',
+            },
 
-          "&[data-connector-type='continuous']": {
-            w: '[calc(token(sizes.connector.line-width))]',
-            background: 'connector.line',
+            "&[data-connector-type='continuous']": {
+              w: '[calc(token(sizes.connector.line-width))]',
+              background: 'connector.line',
+            },
           },
-        })}
+          animationEndRules,
+        )}
       >
       </div>
       <div
-        data-lol
-        class={css({
-          mt: 'auto',
-          paddingTop: 'connector.line-inset',
-          transition: '[0.5s transform ease 0.5s, 0.5s opacity ease 0.5s]',
-          transform: '[translateX(-50px)]',
-          opacity: '[0]',
-          '[data-visible] &': {
-            transform: '[translateX(0)]',
-            opacity: '[1]',
+        class={css(
+          {
+            mt: 'auto',
+            paddingTop: 'connector.line-inset',
+            transform: '[translateX(-50px)]',
+            opacity: '[0]',
+
+            '[data-animate] &': {
+              transition: '[0.5s transform ease 0.5s, 0.5s opacity ease 0.5s]',
+            },
           },
-        })}
+          animationEndRules,
+        )}
       >
         <Circle
           size="connector.terminator"
@@ -161,20 +180,21 @@ const {
       })}
     >
       <div
-        class={css({
-          display: 'flex',
-          flexDir: 'column',
-          transition: '[0.5s transform ease, 0.5s opacity ease]',
-          transitionDelay: 'slower',
-          transform: '[translateY(-100px)]',
-          opacity: '[0]',
+        class={css(
+          {
+            display: 'flex',
+            flexDir: 'column',
 
-          '[data-visible] &': {
             transitionDelay: 'slower',
-            transform: '[translateY(0)]',
-            opacity: '[1]',
+            transform: '[translateY(-100px)]',
+            opacity: '[0]',
+
+            '[data-animate] &': {
+              transition: '[0.5s transform ease, 0.5s opacity ease]',
+            },
           },
-        })}
+          animationEndRules,
+        )}
       >
         <BodyHeader
           element="h3"
@@ -263,14 +283,17 @@ const {
   </header>
 
   <div
-    class={css({
-      flex: 'auto',
-      transition: '[0.5s transform ease, 0.5s opacity ease]',
-      opacity: '[0.2]',
-      '[data-visible] &': {
-        opacity: '[1]',
+    class={css(
+      {
+        flex: 'auto',
+        opacity: '[0.2]',
+
+        '[data-animate] &': {
+          transition: '[0.5s transform ease, 0.5s opacity ease]',
+        },
       },
-    })}
+      animationEndRules,
+    )}
   >
     <slot />
   </div>

@@ -34,6 +34,14 @@ import { css } from '../styled-system/css'
       },
     })}
   >
+    {
+      /*
+       * Using a marker div here for JS off as a trick to be able to use it as a selector in panda.
+       */
+    }
+    <noscript>
+      <div data-javascript-disabled style={{ display: 'none' }}>Hello</div>
+    </noscript>
     <Header title={SITE_TITLE} />
     <main class={css({ mt: '12', position: 'relative' })}>
       <slot />
