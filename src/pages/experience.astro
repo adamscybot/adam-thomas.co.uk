@@ -144,6 +144,7 @@ import Link from '../components/Link.astro'
 
       if (offsets.lastVisible > animateToTargetIndex) {
         if (!isAnimationInProgress()) {
+          console.log('animate')
           triggerAnimation(
             getElementAtAnimationIndex(animationCompleteIndex + 1),
           )

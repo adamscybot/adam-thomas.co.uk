@@ -29,10 +29,13 @@ const animationEndProperties = css.raw({
 })
 
 const animationEndRules = css.raw({
-  'body:has([data-javascript-disabled]) &, [data-animate] &, [data-animate-disable] &':
-    {
-      ...animationEndProperties,
-    },
+  '[data-animate] &, [data-animate-disable] &': {
+    ...animationEndProperties,
+  },
+
+  'body:has([data-javascript-disabled]) &': {
+    ...animationEndProperties,
+  },
 
   _motionReduce: {
     ...animationEndProperties,
