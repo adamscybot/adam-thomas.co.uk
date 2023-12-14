@@ -137,13 +137,19 @@ import SectionLink from '../components/SectionLink.astro'
         },
         { lastVisible: -1, firstVisible: -1 },
       )
+      console.log(offsets)
 
       if (!initialVisibilityComplete) {
         processInitialIntersection(offsets)
       }
 
       if (offsets.lastVisible > animateToTargetIndex) {
+        console.log('trigger attempt', {
+          animationCompleteIndex,
+          animateToTargetIndex,
+        })
         if (!isAnimationInProgress()) {
+          console.log('trigger')
           triggerAnimation(
             getElementAtAnimationIndex(animationCompleteIndex + 1),
           )

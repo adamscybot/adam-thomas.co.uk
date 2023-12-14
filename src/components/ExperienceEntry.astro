@@ -76,15 +76,18 @@ const {
     <div
       data-connector="source"
       class={css({
-        display: 'none',
+        display: 'flex',
+        flexDir: 'column',
+        alignItems: 'center',
+        top: '0',
+        bottom: '-5',
+        position: 'absolute',
+        left: '-6',
+
         md: {
-          display: 'flex',
-          flexDir: 'column',
-          alignItems: 'center',
-          top: '0',
-          bottom: '-10',
-          position: 'absolute',
           right: '[token(spacing.gutter.gap)]',
+          left: '[unset]',
+          bottom: '-10',
         },
 
         xl: {
@@ -160,10 +163,6 @@ const {
         bg: 'bg',
         flex: 'initial',
         mb: '4',
-        border: 'draw-line',
-        borderStyle: 'none',
-        borderLeftStyle: 'solid',
-        borderColor: 'connector.line',
         ml: '-3',
         pl: '3',
         position: 'relative',
@@ -236,17 +235,20 @@ const {
           data-connector="destination"
           class={css({
             display: 'flex',
-            mt: '2',
+            position: 'absolute',
+            flexDir: 'row-reverse',
+            background: 'slate.950',
+            alignItems: 'center',
+
+            top: '-7',
+            left: '-6',
             md: {
-              position: 'absolute',
-              display: 'flex',
-              flexDir: 'row',
-              alignItems: 'center',
-              right: '0',
               py: 'connector.line-inset',
-              background: 'slate.950',
+              flexDir: 'row',
+              right: '0',
               bottom: '0',
-              mt: '0',
+              left: '[unset]',
+              top: '[unset]',
               transform: '[translateY(100%)]',
             },
           })}
@@ -281,11 +283,7 @@ const {
               </Tag>
             )
           }
-          <Circle
-            size="connector.terminator"
-            bg="connector.terminator"
-            display={{ base: 'none', md: 'block' }}
-          />
+          <Circle size="connector.terminator" bg="connector.terminator" />
         </div>
       </div>
     </div>
