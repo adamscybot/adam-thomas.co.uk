@@ -2,9 +2,15 @@
 import { Icon } from 'astro-icon'
 import PageLink from './PageLink.astro'
 import { css } from '../styled-system/css'
+import type { HTMLAttributes } from 'astro/types'
+import SectionLink from './SectionLink.astro'
+
+type Props = HTMLAttributes<'header'>
+
+const { ...props } = Astro.props
 ---
 
-<header>
+<header class={css({ display: 'initial' })} {...props}>
   <div class={css({ mb: '3' })}>
     <h1
       class={css({ textStyle: 'pageTitle', color: 'text.pageTitle', mb: '2' })}
@@ -16,7 +22,9 @@ import { css } from '../styled-system/css'
       great teams, with a front end spin.
     </p>
   </div>
-  <div class={css({ display: 'flex', flexDir: 'row', columnGap: '3' })}>
+  <div
+    class={css({ display: 'flex', flexDir: 'row', columnGap: '3', mb: '16' })}
+  >
     <a
       href="https://www.linkedin.com/in/adamthomas1/"
       target="_blank"
@@ -43,18 +51,130 @@ import { css } from '../styled-system/css'
       />
     </a>
   </div>
-  <nav
+  <div
     class={css({
-      mt: '16',
       display: 'flex',
-      flexDir: 'row',
-      flexWrap: 'wrap',
-      columnGap: '3',
-      rowGap: '3',
+      zIndex: 'nav',
+      _oneHanded: {
+        _supportsAnimationTimeline: {
+          position: 'sticky',
+          top: '-14',
+          height: '14',
+          // @ts-ignore
+
+          viewTimelineName: '[--nav]',
+          viewTimelineInset: 'token(spacing.-14)',
+        },
+      },
     })}
   >
-    <PageLink href="/">About</PageLink>
-    <PageLink href="/experience">Experience</PageLink>
-    <PageLink href="/blog">Thoughts</PageLink>
-  </nav>
+    <div
+      class={css({
+        display: 'none',
+        _oneHanded: {
+          _supportsAnimationTimeline: {
+            display: 'block',
+            position: 'fixed',
+            left: '0',
+            bottom: '0',
+            right: '0',
+            height: '28',
+            pointerEvents: 'none',
+            transform: '[translateY(100%)]',
+            bg: '[linear-gradient(0deg, token(colors.slate.950) 0%, token(colors.slate.950) 60%, rgba(0,0,0,0) 99%)]',
+
+            animation: '[slideup ease forwards]',
+            animationTimeline: '[--nav]',
+            // @ts-ignore
+            animationRange:
+              '[exit-crossing 0% exit-crossing token(spacing.14)]',
+          },
+        },
+      })}
+    >
+    </div>
+
+    <!-- Astro.slots.has('more') -->
+    <div
+      class={css({
+        flex: '1',
+        _oneHanded: {
+          _supportsAnimationTimeline: {
+            animation: '[slideupAnchoredTop ease forwards]',
+            animationTimeline: '[--nav]',
+            // @ts-ignore
+            animationRange:
+              '[exit-crossing 0% exit-crossing token(spacing.14)]',
+          },
+        },
+      })}
+    >
+      <nav
+        aria-label="Primary Navigation"
+        class={css({
+          flex: '1',
+          display: 'flex',
+          flexDir: 'column',
+          position: 'relative',
+
+          zIndex: 'nav',
+        })}
+      >
+        <div
+          class={css({
+            display: 'flex',
+            flexDir: 'row',
+            columnGap: '2',
+            justifyContent: 'space-between',
+            _oneHanded: {
+              _supportsAnimationTimeline: {
+                animation: '[slideupPrimaryNav ease forwards]',
+                animationTimeline: '[--nav]',
+                // @ts-ignore
+                animationRange:
+                  '[exit-crossing 0% exit-crossing token(spacing.1)]',
+              },
+            },
+            sm: {
+              justifyContent: 'flex-start',
+              columnGap: '3',
+            },
+          })}
+        >
+          <PageLink href="/">About</PageLink>
+          <PageLink href="/experience">Experience</PageLink>
+          <PageLink href="/blog">Thoughts</PageLink>
+        </div>
+        <nav
+          aria-label="Sub Navigation"
+          class={css({
+            mt: '3',
+
+            display: 'flex',
+            flexDir: 'row',
+            flexWrap: 'wrap',
+            columnGap: '3',
+            _oneHanded: {
+              _supportsAnimationTimeline: {
+                animation: '[slideupSubNav ease forwards]',
+                animationTimeline: '[--nav]',
+                // @ts-ignore
+                animationRange:
+                  '[exit-crossing 0% exit-crossing token(spacing.1)]',
+              },
+            },
+
+            sm: {
+              mt: '4',
+              alignSelf: 'flex-end',
+            },
+          })}
+        >
+          <slot name="sub-nav" />
+        </nav>
+      </nav>
+    </div>
+  </div>
 </header>
+
+<slot />

@@ -4,6 +4,7 @@ import BodyParagraph from '../components/BodyParagraph.astro'
 import BodySection from '../components/BodySection.astro'
 import ExperienceEntry from '../components/ExperienceEntry.astro'
 import Link from '../components/Link.astro'
+import SectionLink from '../components/SectionLink.astro'
 ---
 
 {
@@ -69,7 +70,6 @@ import Link from '../components/Link.astro'
     this: HTMLElement,
     event: TransitionEvent,
   ) {
-    console.log((event.target as HTMLElement).dataset)
     if ((event.target as HTMLElement).dataset.animationEndsGroup === undefined)
       return
 
@@ -144,7 +144,6 @@ import Link from '../components/Link.astro'
 
       if (offsets.lastVisible > animateToTargetIndex) {
         if (!isAnimationInProgress()) {
-          console.log('animate')
           triggerAnimation(
             getElementAtAnimationIndex(animationCompleteIndex + 1),
           )
@@ -177,7 +176,12 @@ import Link from '../components/Link.astro'
 </script>
 
 <Layout>
-  <BodySection title="Employment">
+  <Fragment slot="sub-nav">
+    <SectionLink href="#employment">Employment</SectionLink>
+    <SectionLink href="#education">Education</SectionLink>
+  </Fragment>
+
+  <BodySection id="employment" title="Employment">
     <ExperienceEntry
       org="Informatica"
       position="Engineering Manager"
@@ -397,7 +401,7 @@ import Link from '../components/Link.astro'
       </BodyParagraph>
     </ExperienceEntry>
   </BodySection>
-  <BodySection title="Education">
+  <BodySection id="education" title="Education">
     <ExperienceEntry
       org="University of Southampton"
       position="Computer Science MEng"

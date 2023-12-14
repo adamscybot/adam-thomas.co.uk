@@ -1,0 +1,24 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { css } from '../styled-system/css'
+
+type Props = HTMLAttributes<'nav'>
+
+const { ...props } = Astro.props
+---
+
+<nav
+  aria-label="Primary Navigation"
+  aria-hidden="true"
+  class={css({
+    w: 'full',
+    md: {
+      '@media (pointer:coarse)': {
+        display: 'none',
+      },
+    },
+  })}
+>
+  <div></div>
+  <nav aria-label="Sub Navigation"></nav>
+</nav>

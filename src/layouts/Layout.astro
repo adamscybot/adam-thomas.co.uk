@@ -2,11 +2,38 @@
 import BaseHead from '../components/BaseHead.astro'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+import {
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+  BehaviourAttributes,
+  asProp,
+} from '../consts'
 import { css } from '../styled-system/css'
 ---
 
-<!doctype html>
+<script>
+  import { BehaviourAttributes, asSelector } from '../consts'
+
+  // const observer = new IntersectionObserver(
+  //   ([{ isIntersecting }]) => {
+  //     if (isIntersecting) {
+  //       document.body.removeAttribute(BehaviourAttributes.SCROLLED_BELOW_HEADER)
+  //       return
+  //     }
+  //     document.body.setAttribute(
+  //       BehaviourAttributes.SCROLLED_BELOW_HEADER,
+  //       'true',
+  //     )
+  //   },
+  //   { threshold: 0, root: null },
+  // )
+
+  // observer.observe(
+  //   document.querySelector(asSelector(BehaviourAttributes.PRIMARY_HEADER))!,
+  // )
+  document.body.setAttribute(BehaviourAttributes.SCROLLED_BELOW_HEADER, 'true')
+</script>
+
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
@@ -34,18 +61,22 @@ import { css } from '../styled-system/css'
       },
     })}
   >
-    {
-      /*
-       * Using a marker div here for JS off as a trick to be able to use it as a selector in panda.
-       */
-    }
     <noscript>
-      <div data-javascript-disabled style={{ display: 'none' }}>Hello</div>
+      {
+        /*
+         * Using a marker div here for JS off as a trick to be able to use it as a selector in panda.
+         */
+      }
+      <div data-javascript-disabled style={{ display: 'none' }}></div>
     </noscript>
-    <Header title={SITE_TITLE} />
-    <main class={css({ mt: '12', position: 'relative' })}>
-      <slot />
-    </main>
+    <Header {...asProp(BehaviourAttributes.PRIMARY_HEADER)}>
+      <slot name="sub-nav" slot="sub-nav" />
+
+      <main class={css({ mt: '12', position: 'relative' })}>
+        <slot />
+      </main>
+    </Header>
+
     <Footer />
   </body>
 </html>

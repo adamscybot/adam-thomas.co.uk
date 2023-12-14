@@ -36,11 +36,25 @@ export const textStyles = defineTextStyles({
       fontSize: '0.8rem',
       lineHeight: '1.35',
       textTransform: 'uppercase',
-      xs: {
+      md: {
         fontSize: '1rem',
       },
     },
   },
+  sectionLink: {
+    description: 'Main header sub navigation links',
+    value: {
+      fontFamily: 'inter',
+      fontWeight: '900',
+      fontSize: '0.7rem',
+      lineHeight: '1.35',
+      textTransform: 'uppercase',
+      md: {
+        fontSize: '0.8rem',
+      },
+    },
+  },
+
   link: {
     description: 'Inline links',
     value: {
@@ -68,7 +82,7 @@ export const textStyles = defineTextStyles({
       fontSize: '0.7rem',
       textTransform: 'uppercase',
     },
-  }
+  },
 })
 
 const connector = {
@@ -84,7 +98,7 @@ const connector = {
   spacing: {
     'line-inset': { value: '{spacing.3}' },
     'line-dot-gap': { value: '17px' },
-    'terminator-tag-gap': {value: '{spacing.3}'}
+    'terminator-tag-gap': { value: '{spacing.3}' },
   },
 }
 
@@ -105,6 +119,9 @@ export default defineConfig({
         fonts: {
           inter: { value: "'Inter Variable', sans-serif" },
         },
+        animations: {
+          slideUpStick: { value: 'slideup 0.5s ease forwards' },
+        },
       },
       semanticTokens: {
         borders: {
@@ -123,12 +140,11 @@ export default defineConfig({
             header: { value: '{colors.slate.200}' },
             tagline: { value: '{colors.slate.300}' },
             body: { value: '{colors.slate.400}' },
-            tag: {value: '{colors.slate.300}'}
+            tag: { value: '{colors.slate.300}' },
           },
           connector: {
             ...connector.colors,
           },
-
         },
         sizes: {
           connector: {
@@ -144,13 +160,63 @@ export default defineConfig({
             gap: { value: '{spacing.5}' },
           },
         },
+        zIndex: {
+          nav: { value: '2' },
+        },
       },
+
       breakpoints: {
         xxs: '355px',
         xs: '430px',
         xl: '1200px',
         '2xl': '1320px',
       },
+
+      keyframes: {
+        slideupAnchoredTop: {
+          '0%': {
+            transform: 'translateY(calc(100vh + 100%))',
+          },
+          '100%': {
+            transform: 'translateY(100vh)',
+          },
+        },
+        slideup: {
+          '0%': {
+            transform: 'translateY(100%)',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+          },
+        },
+
+        slideupPrimaryNav: {
+          '100%': {
+            transform: 'translateY(20px)',
+          },
+        },
+        slideupSubNav: {
+          '100%': {
+            transform: 'translateY(-50px)',
+          },
+        },
+
+        slidedown: {
+          '0%': {
+            transform: 'translateY(-100%)',
+          },
+          '100%': {
+            transform: 'translateY(0%)',
+          },
+        },
+      },
+    },
+  },
+  conditions: {
+    extend: {
+      oneHanded:
+        '@media (pointer:coarse) and (max-device-width: token(breakpoints.xs))',
+      supportsAnimationTimeline: '@supports (animation-timeline: view())',
     },
   },
   outdir: 'src/styled-system',

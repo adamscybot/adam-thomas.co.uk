@@ -44,6 +44,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  scroll-timeline-polyfill:
+    specifier: github:flackr/scroll-timeline
+    version: github.com/flackr/scroll-timeline/5a2639adcd5691004177b10bd9970f4cea4b4fc0
   typescript:
     specifier: ^5.3.2
     version: 5.3.2
@@ -5505,3 +5508,9 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
+
+  github.com/flackr/scroll-timeline/5a2639adcd5691004177b10bd9970f4cea4b4fc0:
+    resolution: {tarball: https://codeload.github.com/flackr/scroll-timeline/tar.gz/5a2639adcd5691004177b10bd9970f4cea4b4fc0}
+    name: scroll-timeline-polyfill
+    version: 1.0.0
+    dev: false

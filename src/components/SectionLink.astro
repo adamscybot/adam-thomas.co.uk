@@ -12,28 +12,23 @@ const isActive = href === pathname || href === pathname.replace(/\/$/, '')
 
 <a
   href={href}
-  data-pagelink
+  data-astro-prefetch="hover"
   class:list={[
     className,
     css({
-      textStyle: 'pageLink',
-      color: 'slate.400',
-      bg: 'indigo.950',
+      textStyle: 'sectionLink',
+      color: 'indigo.900',
+      bg: 'indigo.200',
       px: '2',
       py: '1',
-      flex: '1',
-      textAlign: 'center',
+
       xxs: {
         px: '3',
       },
-      sm: {
-        flex: '[0 0 auto]',
-        py: '1.5',
-      },
-      borderRadius: 'sm',
+      borderRadius: 'full',
       _hover: {
-        color: 'slate.200',
-        bg: 'indigo.800',
+        color: 'indigo.900',
+        bg: 'white',
       },
       _active: {
         // bg: 'slate.500',
