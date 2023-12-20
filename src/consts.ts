@@ -7,7 +7,8 @@ export const SITE_DESCRIPTION =
 
 export enum BehaviourAttributes {
   SCROLLED_BELOW_HEADER = 'data-scrolled-below-header',
-  PRIMARY_HEADER = 'data-primary-header',
+  NAV = 'data-nav',
+  PRIMARY_HEADER_HAS_SUB_NAV = 'data-has-sub-nav',
 }
 
 export enum AttributeSelectorOperator {

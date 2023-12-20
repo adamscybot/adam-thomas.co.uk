@@ -11,29 +11,6 @@ import {
 import { css } from '../styled-system/css'
 ---
 
-<script>
-  import { BehaviourAttributes, asSelector } from '../consts'
-
-  // const observer = new IntersectionObserver(
-  //   ([{ isIntersecting }]) => {
-  //     if (isIntersecting) {
-  //       document.body.removeAttribute(BehaviourAttributes.SCROLLED_BELOW_HEADER)
-  //       return
-  //     }
-  //     document.body.setAttribute(
-  //       BehaviourAttributes.SCROLLED_BELOW_HEADER,
-  //       'true',
-  //     )
-  //   },
-  //   { threshold: 0, root: null },
-  // )
-
-  // observer.observe(
-  //   document.querySelector(asSelector(BehaviourAttributes.PRIMARY_HEADER))!,
-  // )
-  document.body.setAttribute(BehaviourAttributes.SCROLLED_BELOW_HEADER, 'true')
-</script>
-
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
@@ -41,14 +18,12 @@ import { css } from '../styled-system/css'
   <body
     class={css({
       maxW: '4xl',
-      px: '5',
+      px: '7',
       py: '20',
       mx: 'auto',
       bg: 'bg',
       overflowY: 'scroll',
-      xxs: {
-        px: '7',
-      },
+      xxs: {},
       xs: {
         px: '10',
       },
@@ -69,7 +44,11 @@ import { css } from '../styled-system/css'
       }
       <div data-javascript-disabled style={{ display: 'none' }}></div>
     </noscript>
-    <Header {...asProp(BehaviourAttributes.PRIMARY_HEADER)}>
+    <Header
+      {...Astro.slots.has('sub-nav')
+        ? asProp(BehaviourAttributes.PRIMARY_HEADER_HAS_SUB_NAV)
+        : {}}
+    >
       <slot name="sub-nav" slot="sub-nav" />
 
       <main class={css({ mt: '12', position: 'relative' })}>

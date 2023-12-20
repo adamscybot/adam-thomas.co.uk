@@ -3,13 +3,50 @@ import { Icon } from 'astro-icon'
 import PageLink from './PageLink.astro'
 import { css } from '../styled-system/css'
 import type { HTMLAttributes } from 'astro/types'
-import SectionLink from './SectionLink.astro'
+import { BehaviourAttributes, asProp } from '../consts'
 
 type Props = HTMLAttributes<'header'>
 
 const { ...props } = Astro.props
 ---
 
+<script>
+  import { BehaviourAttributes, asSelector } from '../consts'
+
+  const initNavBehaviour = () => {
+    const navEl: HTMLElement = document.querySelector(
+      asSelector(BehaviourAttributes.NAV),
+    )!
+
+    const observer = new IntersectionObserver(
+      ([{ intersectionRatio }]) => {
+        navEl.style.setProperty(
+          '--nav-intersection-ratio',
+          String(intersectionRatio),
+        )
+
+        if (intersectionRatio >= 1) {
+          navEl.removeAttribute(BehaviourAttributes.SCROLLED_BELOW_HEADER)
+          return
+        }
+        navEl.setAttribute(BehaviourAttributes.SCROLLED_BELOW_HEADER, 'true')
+      },
+      {
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+        root: null,
+        rootMargin: '60px',
+      },
+    )
+
+    if (!CSS.supports('animation-timeline: view()')) {
+      observer.observe(navEl)
+    }
+  }
+
+  document.addEventListener('astro:page-load', initNavBehaviour, {
+    once: false,
+  })
+</script>
 <header class={css({ display: 'initial' })} {...props}>
   <div class={css({ mb: '3' })}>
     <h1
@@ -52,127 +89,162 @@ const { ...props } = Astro.props
     </a>
   </div>
   <div
+    {...asProp(BehaviourAttributes.NAV)}
     class={css({
-      display: 'flex',
+      display: 'initial',
       zIndex: 'nav',
       _oneHanded: {
         _supportsAnimationTimeline: {
+          display: 'flex',
           position: 'sticky',
-          top: '-14',
-          height: '14',
+          top: '-16',
+          height: '16',
           // @ts-ignore
 
           viewTimelineName: '[--nav]',
-          viewTimelineInset: 'token(spacing.-14)',
+          viewTimelineInset: 'token(spacing.-16)',
         },
       },
     })}
   >
     <div
       class={css({
-        display: 'none',
-        _oneHanded: {
-          _supportsAnimationTimeline: {
+        display: 'flex',
+        height: 'full',
+        _noAnimationTimeline: {
+          zIndex: '[2]',
+          position: 'sticky',
+          top: '-16',
+        },
+      })}
+    >
+      <div
+        class={css({
+          display: 'none',
+          _oneHanded: {
             display: 'block',
             position: 'fixed',
+
             left: '0',
             bottom: '0',
             right: '0',
-            height: '28',
+            height: '16',
             pointerEvents: 'none',
             transform: '[translateY(100%)]',
-            bg: '[linear-gradient(0deg, token(colors.slate.950) 0%, token(colors.slate.950) 60%, rgba(0,0,0,0) 99%)]',
-
-            animation: '[slideup ease forwards]',
-            animationTimeline: '[--nav]',
-            // @ts-ignore
-            animationRange:
-              '[exit-crossing 0% exit-crossing token(spacing.14)]',
+            backdropFilter: '[blur(3px)]',
+            mask: '[linear-gradient( to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 20%, rgba(0, 0, 0, 1) 30% )]',
+            '[data-has-sub-nav] &': {
+              height: '28',
+            },
+            '[data-scrolled-below-header] &': {
+              transition: '[0.1s transform linear]',
+              transform:
+                '[translateY(calc(100% * var(--nav-intersection-ratio)))]',
+            },
+            _supportsAnimationTimeline: {
+              animation: '[slideup ease forwards]',
+              animationTimeline: '[--nav]',
+              // @ts-ignore
+              animationRange:
+                '[exit-crossing 0% exit-crossing token(spacing.16)]',
+            },
           },
-        },
-      })}
-    >
-    </div>
-
-    <!-- Astro.slots.has('more') -->
-    <div
-      class={css({
-        flex: '1',
-        _oneHanded: {
-          _supportsAnimationTimeline: {
-            animation: '[slideupAnchoredTop ease forwards]',
-            animationTimeline: '[--nav]',
-            // @ts-ignore
-            animationRange:
-              '[exit-crossing 0% exit-crossing token(spacing.14)]',
-          },
-        },
-      })}
-    >
-      <nav
-        aria-label="Primary Navigation"
-        class={css({
-          flex: '1',
-          display: 'flex',
-          flexDir: 'column',
-          position: 'relative',
-
-          zIndex: 'nav',
         })}
       >
-        <div
-          class={css({
-            display: 'flex',
-            flexDir: 'row',
-            columnGap: '2',
-            justifyContent: 'space-between',
-            _oneHanded: {
-              _supportsAnimationTimeline: {
-                animation: '[slideupPrimaryNav ease forwards]',
-                animationTimeline: '[--nav]',
-                // @ts-ignore
-                animationRange:
-                  '[exit-crossing 0% exit-crossing token(spacing.1)]',
-              },
+      </div>
+
+      <div
+        class={css({
+          flex: '1',
+          _oneHanded: {
+            '[data-scrolled-below-header] &': {
+              position: 'relative',
+              top: '[calc(100vh + token(spacing.16))]',
+              transform:
+                '[translateY(calc(-100% * calc(1 - var(--nav-intersection-ratio) ) ))]',
+              transition: '[0.1s transform linear]',
             },
-            sm: {
-              justifyContent: 'flex-start',
-              columnGap: '3',
+            _supportsAnimationTimeline: {
+              animation: '[slideupAnchoredTop ease forwards]',
+              animationTimeline: '[--nav]',
+              // @ts-ignore
+              animationRange:
+                '[exit-crossing 0% exit-crossing token(spacing.16)]',
             },
-          })}
-        >
-          <PageLink href="/">About</PageLink>
-          <PageLink href="/experience">Experience</PageLink>
-          <PageLink href="/blog">Thoughts</PageLink>
-        </div>
+          },
+        })}
+      >
         <nav
-          aria-label="Sub Navigation"
+          aria-label="Primary Navigation"
           class={css({
-            mt: '3',
-
+            flex: '1',
             display: 'flex',
-            flexDir: 'row',
-            flexWrap: 'wrap',
-            columnGap: '3',
-            _oneHanded: {
-              _supportsAnimationTimeline: {
-                animation: '[slideupSubNav ease forwards]',
-                animationTimeline: '[--nav]',
-                // @ts-ignore
-                animationRange:
-                  '[exit-crossing 0% exit-crossing token(spacing.1)]',
-              },
-            },
+            flexDir: 'column',
+            position: 'relative',
 
-            sm: {
-              mt: '4',
-              alignSelf: 'flex-end',
-            },
+            zIndex: 'nav',
           })}
         >
-          <slot name="sub-nav" />
+          <div
+            class={css({
+              display: 'flex',
+              flexDir: 'row',
+              columnGap: '2',
+              justifyContent: 'space-between',
+              _oneHanded: {
+                '[data-has-sub-nav] [data-scrolled-below-header] &': {
+                  transform: '[translateY(20px)]',
+                },
+                _supportsAnimationTimeline: {
+                  animation: '[slideupPrimaryNav ease forwards]',
+                  animationTimeline: '[--nav]',
+                  // @ts-ignore
+                  animationRange:
+                    '[exit-crossing 0% exit-crossing token(spacing.1)]',
+                },
+              },
+              sm: {
+                justifyContent: 'flex-start',
+                columnGap: '3',
+              },
+            })}
+          >
+            <PageLink href="/">About</PageLink>
+            <PageLink href="/experience">Experience</PageLink>
+            <PageLink href="/blog">Thoughts</PageLink>
+          </div>
+          <nav
+            aria-label="Sub Navigation"
+            class={css({
+              mt: '3',
+
+              display: 'flex',
+              flexDir: 'row',
+              flexWrap: 'wrap',
+              columnGap: '3',
+              _oneHanded: {
+                '[data-scrolled-below-header] &': {
+                  transform: '[translateY(-50px)]',
+                },
+                _supportsAnimationTimeline: {
+                  animation: '[slideupSubNav ease forwards]',
+                  animationTimeline: '[--nav]',
+                  // @ts-ignore
+                  animationRange:
+                    '[exit-crossing 0% exit-crossing token(spacing.1)]',
+                },
+              },
+
+              sm: {
+                mt: '4',
+                alignSelf: 'flex-end',
+              },
+            })}
+          >
+            <slot name="sub-nav" />
+          </nav>
         </nav>
-      </nav>
+      </div>
     </div>
   </div>
 </header>

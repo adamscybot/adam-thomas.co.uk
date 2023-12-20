@@ -79,14 +79,18 @@ const {
         display: 'flex',
         flexDir: 'column',
         alignItems: 'center',
-        top: '0',
+        top: '[calc(token(spacing.connector.line-inset) + token(sizes.connector.terminator))]',
         bottom: '-5',
         position: 'absolute',
-        left: '-6',
+        left: '-5',
+        xs: {
+          left: '-6',
+        },
 
         md: {
           right: '[token(spacing.gutter.gap)]',
           left: '[unset]',
+          top: '0',
           bottom: '-10',
         },
 
@@ -109,6 +113,11 @@ const {
 
             '[data-animate] &': {
               transition: '[0.5s transform linear]',
+              transitionDelay: 'slow',
+
+              md: {
+                transitionDelay: 'normal',
+              },
             },
 
             "&[data-connector-type='discontinuous']": {
@@ -187,71 +196,97 @@ const {
       })}
     >
       <div
-        {...last ? { 'data-animation-ends-group': true } : {}}
-        class={css(
-          {
-            display: 'flex',
+        class={css({
+          display: 'flex',
+          flexDir: 'column-reverse',
+          alignItems: 'flex-start',
+
+          md: {
+            alignItems: 'flex-end',
             flexDir: 'column',
-
-            transform: '[translateY(-100px)]',
-            opacity: '[0]',
-
-            '[data-animate] &': {
-              transitionDelay: 'slower',
-              transition: '[0.5s transform ease, 0.5s opacity ease]',
-            },
           },
-          animationEndRules,
-        )}
+        })}
       >
-        <BodyHeader
-          element="h3"
-          css={{
-            color: 'slate.300',
-            fontSize: 'sm',
-            mb: '0',
-            textTransform: 'none',
-          }}
+        <div
+          {...last ? { 'data-animation-ends-group': true } : {}}
+          class={css(
+            {
+              transform: '[translateX(100px)]',
+              opacity: '[0]',
+
+              md: {
+                transform: '[translateY(-100px)]',
+              },
+
+              '[data-animate] &': {
+                transition: '[0.5s transform ease, 0.5s opacity ease]',
+              },
+            },
+            animationEndRules,
+          )}
         >
-          {position}<br /><span
-            class={css({
+          <BodyHeader
+            element="h3"
+            css={{
+              color: 'slate.300',
               fontSize: 'sm',
-              fontWeight: 'medium',
-            })}>{org}</span
+              mb: '0',
+              textTransform: 'none',
+            }}
           >
-        </BodyHeader>
-        <p
-          class={css({
-            textStyle: 'body',
-            color: 'text.body',
-            fontSize: 'sm',
-          })}
-        >
-          <FormattedDate date={startDate} /> - {
-            endDate ? <FormattedDate date={endDate} /> : 'Current'
-          }
-        </p>
+            {position}<br /><span
+              class={css({
+                fontSize: 'sm',
+                fontWeight: 'medium',
+              })}>{org}</span
+            >
+          </BodyHeader>
+          <p
+            class={css({
+              textStyle: 'body',
+              color: 'text.body',
+              fontSize: 'sm',
+            })}
+          >
+            <FormattedDate date={startDate} /> - {
+              endDate ? <FormattedDate date={endDate} /> : 'Current'
+            }
+          </p>
+        </div>
         <div
           data-connector="destination"
-          class={css({
-            display: 'flex',
-            position: 'absolute',
-            flexDir: 'row-reverse',
-            background: 'slate.950',
-            alignItems: 'center',
+          class={css(
+            {
+              display: 'flex',
+              flexDir: 'row-reverse',
+              background: 'slate.950',
+              alignItems: 'center',
+              position: 'relative',
+              left: '-5',
+              mb: '2',
+              transform: '[translateX(100px)]',
+              opacity: '[0]',
+              xs: {
+                left: '-6',
+              },
+              md: {
+                py: 'connector.line-inset',
+                flexDir: 'row',
+                left: '[unset]',
+                mb: '0',
+                transform: '[translateX(-100px)]',
+              },
 
-            top: '-7',
-            left: '-6',
-            md: {
-              py: 'connector.line-inset',
-              flexDir: 'row',
-              right: '0',
-              bottom: '0',
-              left: '[unset]',
-              top: '[unset]',
-              transform: '[translateY(100%)]',
+              '[data-animate] &': {
+                transition: '[0.5s transform ease, 0.5s opacity ease]',
+                md: {
+                  transition:
+                    '[0.5s transform ease 200ms, 0.5s opacity ease 200ms]',
+                },
+              },
             },
-          })}
+            animationEndRules,
+          )}
         >
           {
             transitionType === 'promotion' && (
@@ -297,6 +332,11 @@ const {
 
         '[data-animate] &': {
           transition: '[0.5s transform ease, 0.5s opacity ease]',
+          transitionDelay: 'slow',
+
+          md: {
+            transitionDelay: 'normal',
+          },
         },
       },
       animationEndRules,

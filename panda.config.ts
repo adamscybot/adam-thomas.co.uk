@@ -217,6 +217,7 @@ export default defineConfig({
       oneHanded:
         '@media (pointer:coarse) and (max-device-width: token(breakpoints.xs))',
       supportsAnimationTimeline: '@supports (animation-timeline: view())',
+      noAnimationTimeline: '@supports not (animation-timeline: view())',
     },
   },
   outdir: 'src/styled-system',

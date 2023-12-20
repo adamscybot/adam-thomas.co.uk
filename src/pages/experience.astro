@@ -22,14 +22,19 @@ import SectionLink from '../components/SectionLink.astro'
    * desired behaviour just right. For example, we are not wasting the users time if they enter the page on a scrolled down state. */
 }
 <script>
-  /* Identified the parent DOM node that acts as set of elements that are animated  */
+  /** Identified the parent DOM node that acts as set of elements that are animated  */
   const ANIMATION_GROUP_ATTR = 'animation-group'
 
-  /* Threshold option used with `IntersectionObserver` */
-  const THRESHOLD = 0.8
+  /** Threshold option used with `IntersectionObserver` */
+  const THRESHOLD = 0.7
 
+  /**  Index that represents the animation group that is the current upper bound target to animate up to */
   let animateToTargetIndex: number = -1
+
+  /** Index that represents the last animation group that has completed its animation  */
   let animationCompleteIndex: number = -1
+
+  /** Wether the first intersection event has already been handled or not. */
   let initialVisibilityComplete: boolean = false
 
   const isAnimationInProgress = () =>
@@ -113,6 +118,7 @@ import SectionLink from '../components/SectionLink.astro'
 
   const observer = new IntersectionObserver(
     (entries) => {
+      /** The indexes representing the range of animation groups currently visible on screen */
       const offsets = entries.reduce<{
         lastVisible: number
         firstVisible: number
@@ -123,6 +129,8 @@ import SectionLink from '../components/SectionLink.astro'
 
           const target = currentEntry.target as HTMLElement
           const currentAnimationIndex = getAnimationIndexOfElement(target)
+
+          // We dont animate again after it's already triggered so there's no need to keep watching.
           observer.unobserve(target)
 
           if (furthestTarget.firstVisible === -1) {
@@ -137,19 +145,16 @@ import SectionLink from '../components/SectionLink.astro'
         },
         { lastVisible: -1, firstVisible: -1 },
       )
-      console.log(offsets)
 
       if (!initialVisibilityComplete) {
         processInitialIntersection(offsets)
       }
 
       if (offsets.lastVisible > animateToTargetIndex) {
-        console.log('trigger attempt', {
-          animationCompleteIndex,
-          animateToTargetIndex,
-        })
+        // If animation is already in progress it will be triggered by the transition event handler
+        // when the previous animation group finishes. If it's not in progress we need to manually
+        // trigger the animation to start a new cascade.
         if (!isAnimationInProgress()) {
-          console.log('trigger')
           triggerAnimation(
             getElementAtAnimationIndex(animationCompleteIndex + 1),
           )
@@ -251,8 +256,9 @@ import SectionLink from '../components/SectionLink.astro'
       animationIndex={2}
     >
       <BodyParagraph>
-        I built up the companies UI team from scratch, leading work on
-        modernising the front-end stack for new and existing products.
+        I joined Privitar as their first front-end lead to spearheaded the
+        creation of the UI team from the ground up, with the goal of modernizing
+        the front-end infrastructure for both new and existing products.
       </BodyParagraph>
       <BodyParagraph>
         The team worked on the removal of a legacy UI framework that was
