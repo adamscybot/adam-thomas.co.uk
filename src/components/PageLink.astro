@@ -1,6 +1,7 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
 import { css } from '../styled-system/css'
+import { BehaviourAttributes, asProp } from '../consts'
 
 type Props = HTMLAttributes<'a'>
 
@@ -10,9 +11,25 @@ const { pathname } = Astro.url
 const isActive = href === pathname || href === pathname.replace(/\/$/, '')
 ---
 
+<script>
+  //   import { BehaviourAttributes, asSelector } from '../consts'
+
+  //   const initScrollBehaviour = () => {
+  //     const pageLinks = document.querySelectorAll<HTMLAnchorElement>(asSelector(BehaviourAttributes.PAGE_LINK))
+  //     ;[...pageLinks].forEach((pageLink)  => {
+  //       pageLink.addEventListener('click', (e) => {
+  // e.preventDefault()
+  //       })
+  //     })
+  //   }
+
+  //   document.addEventListener('astro:page-load', initScrollBehaviour, {
+  //     once: false,
+  //   })
+</script>
 <a
-  href={href}
-  data-pagelink
+  href={href + '#main'}
+  {...asProp(BehaviourAttributes.NAV_PAGE_LINK)}
   class:list={[
     className,
     css({
@@ -30,13 +47,21 @@ const isActive = href === pathname || href === pathname.replace(/\/$/, '')
         flex: '[0 0 auto]',
         py: '1.5',
       },
+      _supportsAnimationTimeline: {
+        animation: '[fade-bg-out ease forwards]',
+        animationTimeline: '[--nav]',
+        // @ts-ignore
+        animationRange: '[exit-crossing 0% exit-crossing 150px]',
+      },
+      '[data-nav-is-stuck] &': {
+        animation: '[fade-bg-out ease forwards 0.2s]',
+      },
       borderRadius: 'sm',
       _hover: {
         color: 'slate.200',
         bg: 'indigo.800',
       },
       _active: {
-        // bg: 'slate.500',
         bg: 'indigo.500',
         color: 'slate.50',
       },

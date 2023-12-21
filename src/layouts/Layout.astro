@@ -23,6 +23,7 @@ import { css } from '../styled-system/css'
       mx: 'auto',
       bg: 'bg',
       overflowY: 'scroll',
+      overflowX: 'hidden',
       xxs: {},
       xs: {
         px: '10',
@@ -46,12 +47,34 @@ import { css } from '../styled-system/css'
     </noscript>
     <Header
       {...Astro.slots.has('sub-nav')
-        ? asProp(BehaviourAttributes.PRIMARY_HEADER_HAS_SUB_NAV)
+        ? asProp(BehaviourAttributes.NAV_HAS_SUB_NAV)
         : {}}
     >
       <slot name="sub-nav" slot="sub-nav" />
 
-      <main class={css({ mt: '12', position: 'relative' })}>
+      <main
+        id="main"
+        class={css({
+          mt: '12',
+          position: 'relative',
+          _before: {
+            content: "['']",
+            display: 'block',
+            height: '[20px]',
+            marginTop: '[-20px]',
+            visibility: 'hidden',
+          },
+          sm: {
+            mt: '20',
+          },
+          md: {
+            _before: {
+              height: '[140px]',
+              marginTop: '[-140px]',
+            },
+          },
+        })}
+      >
         <slot />
       </main>
     </Header>

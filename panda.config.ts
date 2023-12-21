@@ -135,6 +135,11 @@ export default defineConfig({
         },
         colors: {
           bg: { value: '{colors.slate.950}' },
+          nav: {
+            overlay: {
+              value: 'color-mix(in srgb, {colors.white} 10%, transparent)',
+            },
+          },
           text: {
             pageTitle: { value: '{colors.slate.200}' },
             header: { value: '{colors.slate.200}' },
@@ -155,6 +160,9 @@ export default defineConfig({
           connector: {
             ...connector.spacing,
           },
+          nav: {
+            buffer: { value: '{spacing.24}' },
+          },
           gutter: {
             width: { value: '{spacing.56}' },
             gap: { value: '{spacing.5}' },
@@ -173,12 +181,37 @@ export default defineConfig({
       },
 
       keyframes: {
-        slideupAnchoredTop: {
+        navBlur: {
           '0%': {
-            transform: 'translateY(calc(100vh + 100%))',
+            background: 'rgba(255,255,255,0)',
           },
           '100%': {
-            transform: 'translateY(100vh)',
+            background: 'rgba(255,255,255,0.15)',
+            backdropFilter: 'blur(10px)',
+          },
+        },
+        navSubNavDock: {
+          '100%': {
+            transform: 'translateY(0)',
+          },
+        },
+        navMask: {
+          '100%': {
+            opacity: '1',
+          },
+        },
+        'fade-bg-out': {
+          '100%': {
+            background: 'rgba(0,0,0,0)',
+          },
+        },
+
+        slideupAnchoredTop: {
+          '0%': {
+            transform: 'translateY(calc(100dvh + 100%))',
+          },
+          '100%': {
+            transform: 'translateY(calc(100dvh - 20px))',
           },
         },
         slideup: {
@@ -192,12 +225,12 @@ export default defineConfig({
 
         slideupPrimaryNav: {
           '100%': {
-            transform: 'translateY(20px)',
+            transform: 'translateY(0)',
           },
         },
         slideupSubNav: {
           '100%': {
-            transform: 'translateY(-50px)',
+            transform: 'translateY(-80px)',
           },
         },
 
@@ -216,6 +249,8 @@ export default defineConfig({
     extend: {
       oneHanded:
         '@media (pointer:coarse) and (max-device-width: token(breakpoints.xs))',
+      notOneHanded:
+        '@media not ((pointer:coarse) and (max-device-width: token(breakpoints.xs)))',
       supportsAnimationTimeline: '@supports (animation-timeline: view())',
       noAnimationTimeline: '@supports not (animation-timeline: view())',
     },
