@@ -286,7 +286,12 @@ const { ...props } = Astro.props
           >
             <PageLink href="/">About</PageLink>
             <PageLink href="/experience">Experience</PageLink>
-            <PageLink href="/blog">Thoughts</PageLink>
+            <PageLink
+              href="/blog"
+              isActive={Astro.url.pathname.startsWith('/blog')}
+            >
+              Thoughts
+            </PageLink>
           </div>
           <nav
             aria-label="Sub Navigation"

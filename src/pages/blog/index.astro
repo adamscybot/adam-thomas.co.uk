@@ -3,26 +3,39 @@ import { getCollection } from 'astro:content'
 import FormattedDate from '../../components/FormattedDate.astro'
 import Layout from '../../layouts/Layout.astro'
 import BodyParagraph from '../../components/BodyParagraph.astro'
+import Link from '../../components/Link.astro'
+import { css } from '../../styled-system/css'
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
 )
 ---
 
-<Layout>
-  <BodyParagraph>Coming soon...</BodyParagraph>
-  <!-- <ul>
-		{
-			posts.map((post) => (
-				<li>
-					<a href={`/blog/${post.slug}/`}>
-						<h4 class="title">{post.data.title}</h4>
-						<p class="date">
-							<FormattedDate date={post.data.pubDate} />
-						</p>
-					</a>
-				</li>
-			))
-		}
-	</ul> -->
+<Layout title="Thoughts">
+  <BodyParagraph>
+    More soon, and excuse the styling for now, but here's a start...
+  </BodyParagraph>
+  <ul>
+    {
+      posts.map((post) => (
+        <>
+          <span
+            class={css({
+              fontSize: 'lg',
+              textStyle: 'body',
+              color: 'text.body',
+              mr: '3',
+            })}
+          >
+            <FormattedDate date={post.data.pubDate} />
+          </span>
+          <Link href={`/blog/${post.slug}/`}>
+            <h2 class={css({ fontSize: 'lg', display: 'inline' })}>
+              {post.data.title}
+            </h2>
+          </Link>
+        </>
+      ))
+    }
+  </ul>
 </Layout>

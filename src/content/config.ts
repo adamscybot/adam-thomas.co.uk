@@ -1,3 +1,4 @@
+import { string } from 'astro/zod'
 import { defineCollection, z } from 'astro:content'
 
 const blog = defineCollection({
@@ -8,6 +9,12 @@ const blog = defineCollection({
     // Transform string to Date object
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
+    sectionLinks: z.array(
+      z.object({
+        link: z.string(),
+        name: z.string(),
+      }),
+    ).optional(),
   }),
 })
 

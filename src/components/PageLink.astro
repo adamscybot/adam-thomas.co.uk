@@ -3,12 +3,20 @@ import type { HTMLAttributes } from 'astro/types'
 import { css } from '../styled-system/css'
 import { BehaviourAttributes, asProp } from '../consts'
 
-type Props = HTMLAttributes<'a'>
+type Props = HTMLAttributes<'a'> & { isActive?: boolean }
 
-const { href, class: className, ...props } = Astro.props
+const {
+  href,
+  isActive: isActiveOverride,
+  class: className,
+  ...props
+} = Astro.props
 
 const { pathname } = Astro.url
-const isActive = href === pathname || href === pathname.replace(/\/$/, '')
+const isActive =
+  isActiveOverride !== undefined
+    ? isActiveOverride
+    : href === pathname || href === pathname.replace(/\/$/, '')
 ---
 
 <script>

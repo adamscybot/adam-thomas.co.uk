@@ -66,12 +66,28 @@ export const textStyles = defineTextStyles({
       },
     },
   },
-  header: {
-    description: 'Inline links',
+  header1: {
+    description: 'h1',
     value: {
       fontFamily: 'inter',
       fontWeight: '600',
       fontSize: '2rem',
+    },
+  },
+  header2: {
+    description: 'h2',
+    value: {
+      fontFamily: 'inter',
+      fontWeight: '600',
+      fontSize: '1.75rem',
+    },
+  },
+  header3: {
+    description: 'h3',
+    value: {
+      fontFamily: 'inter',
+      fontWeight: '600',
+      fontSize: '1.3rem',
     },
   },
   tag: {

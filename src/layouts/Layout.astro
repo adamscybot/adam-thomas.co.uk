@@ -9,11 +9,18 @@ import {
   asProp,
 } from '../consts'
 import { css } from '../styled-system/css'
+
+type Props = { title?: string; description?: string }
+
+const { description, title } = Astro.props
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead
+      title={SITE_TITLE + (title ? ` - ${title}` : '')}
+      description={description ?? SITE_DESCRIPTION}
+    />
   </head>
   <body
     class={css({
