@@ -46,19 +46,32 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
         textAlign: 'justify',
         textStyle: 'body',
         color: 'text.body',
-        mb: '10',
+        mb: '7',
         lineHeight: '[1.9]',
       },
 
       '& ul': {
-        listStyleType: '[circle]',
-        listStylePosition: 'inside',
+        listStyleType: '[disc]',
         ml: '5',
+        textAlign: 'left',
+        textStyle: 'body',
+        color: 'text.body',
+        mb: '7',
+        lineHeight: '[1.9]',
+        pl: '0',
+      },
+
+      '& li': {
+        mb: '5',
       },
 
       '& a': {
         textStyle: 'link',
         color: 'slate.50',
+      },
+
+      '& em': {
+        fontStyle: 'italic',
       },
     })}
   >
