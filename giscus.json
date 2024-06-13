@@ -1,3 +1,4 @@
 {
-    "origins": ["https://www.adam-thomas.co.uk"]
+    "origins": ["https://www.adam-thomas.co.uk"],
+    "originsRegex": ["http://localhost:[0-9]+"]
 }

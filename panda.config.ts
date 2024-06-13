@@ -160,7 +160,7 @@ export default defineConfig({
             pageTitle: { value: '{colors.slate.200}' },
             header: { value: '{colors.slate.200}' },
             tagline: { value: '{colors.slate.300}' },
-            body: { value: '{colors.slate.400}' },
+            body: { value: '{colors.gray.300}' },
             tag: { value: '{colors.slate.300}' },
           },
           connector: {
