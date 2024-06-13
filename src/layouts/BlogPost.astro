@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content'
+import Giscus from '@giscus/react'
 import FormattedDate from '../components/FormattedDate.astro'
 import Layout from './Layout.astro'
 import { css } from '../styled-system/css'
@@ -10,7 +11,18 @@ type Props = CollectionEntry<'blog'>['data']
 const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
 ---
 
-<Layout title={title} description={description}>
+<script>
+  function handleGiscusMessage(event: MessageEvent) {
+    if (event.origin !== 'https://giscus.app') return
+    if (!(typeof event.data === 'object' && event.data.giscus)) return
+
+    const giscusData = event.data.giscus
+
+    console.log(giscusData)
+  }
+  window.addEventListener('message', handleGiscusMessage)
+</script>
+<Layout title={title} ogTitle={title} description={description}>
   <Fragment slot="sub-nav">
     {
       sectionLinks?.map((sectionLink) => (
@@ -23,6 +35,7 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
   <article
     class={css({
       color: 'text.body',
+      mb: '10',
 
       '& h1, & h2, & h3': {
         color: 'text.header',
@@ -78,7 +91,10 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
     <div class="prose">
       <div class="title">
         <div class="date">
-          <FormattedDate date={pubDate} />
+          <FormattedDate
+            date={pubDate}
+            options={{ year: 'numeric', day: 'numeric', month: 'long' }}
+          />
           {
             updatedDate && (
               <div class="last-updated-on">
@@ -92,4 +108,19 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
       <slot />
     </div>
   </article>
+
+  <Giscus
+    client:only="react"
+    id="comments"
+    repo="adamscybot/adam-thomas.co.uk"
+    repoId="MDEwOlJlcG9zaXRvcnkzOTEzMTMwMjA="
+    category="Announcements"
+    categoryId="DIC_kwDOF1L2fM4B-hVS"
+    mapping="specific"
+    term={title}
+    reactionsEnabled="1"
+    emitMetadata="1"
+    theme="dark"
+    lang="en"
+  />
 </Layout>

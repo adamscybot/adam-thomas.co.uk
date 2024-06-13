@@ -1,16 +1,12 @@
 ---
 interface Props {
   date: Date
+  options?: Intl.DateTimeFormatOptions
 }
 
-const { date } = Astro.props
+const { date, options = { year: '2-digit', month: 'short' } } = Astro.props
 ---
 
 <time datetime={date.toISOString()}>
-  {
-    date.toLocaleDateString('en-gb', {
-      year: '2-digit',
-      month: 'short',
-    })
-  }
+  {date.toLocaleDateString('en-gb', options)}
 </time>

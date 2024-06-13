@@ -17,7 +17,7 @@ This is going to be a blunt, pointed list of ramblings about what you should and
 
 I do not usually get so tribal about tools & frameworks in many contexts, but please allow me to scream into the void on this one. Yes, I'm sure there's some beautifully crafted, flake-free-on-every-PR, low-maintenance Selenium god-tier suite out there. I've never witnessed one, yet I go on believing to stay sane. But if you've got large teams and a product of high complexity, the last thing you need is a bit of Selenium in your life to inject some chaos and give you an epic stone-dead cold start. If you thought you would be just getting going on your first test, strap in because you will be teaching this bad boy how to use the web first.
 
-It was the first major browser-driven E2E framework, and therefore, it has a legacy. However, I currently live in 2024 at the time of writing. I hate to do this, and probably someone is shaking their fist at their monitor and now realises there's no comments section, but I'm going to start by using Selenium as a toy example of where it can all go so wrong. You can also apply some of this to other frameworks (more on that later). Still, Selenium has many of these "things", and of course, I harbour barely hidden and irrationally deep-seated emotions about what I have seen, like any engineer.
+It was the first major browser-driven E2E framework, and therefore, it has a legacy. However, I currently live in 2024 at the time of writing. I hate to do this, and probably someone is shaking their fist at their monitor, but I'm going to start by using Selenium as a toy example of where it can all go so wrong. You can also apply some of this to other frameworks (more on that later). Still, Selenium has many of these "things", and of course, I harbour barely hidden and irrationally deep-seated emotions about what I have seen, like any engineer.
 
 ### Baked in non-determinism
 
@@ -108,7 +108,10 @@ Success looks like:
 
 If this contradicts your previous thinking about E2E tests, you've been doing it wrong. The above is how it is done at scale in many organisations with complex products, including very significant organisations. Of course, there will be some deviation in practice. But generally speaking, the above is true in a well-functioning E2E test suite.
 
-## Predictable Execution
+<!-- ### Predictable Execution
+
+
+
 
 ### Never Sleep
 
@@ -120,4 +123,4 @@ If this contradicts your previous thinking about E2E tests, you've been doing it
 
 ## E2E Tests are not necessarily UI Tests
 
-### Cross Browser? Meh, Depends
+### Cross Browser? Meh, Depends -->

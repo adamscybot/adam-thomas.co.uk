@@ -10,15 +10,22 @@ import {
 } from '../consts'
 import { css } from '../styled-system/css'
 
-type Props = { title?: string; description?: string }
+type Props = {
+  title?: string
+  description?: string
+  ogTitle?: string
+  titlePrefix?: string
+}
 
-const { description, title } = Astro.props
+const { description, title, ogTitle, titlePrefix = SITE_TITLE } = Astro.props
 ---
 
 <html lang="en">
   <head>
     <BaseHead
-      title={SITE_TITLE + (title ? ` - ${title}` : '')}
+      title={(titlePrefix ?? '') +
+        (title ? `${titlePrefix !== undefined ? ' - ' : ''}${title}` : '')}
+      ogTitle={ogTitle}
       description={description ?? SITE_DESCRIPTION}
     />
   </head>
