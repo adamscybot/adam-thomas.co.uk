@@ -108,6 +108,9 @@ Success looks like:
 
 If this contradicts your previous thinking about E2E tests, you've been doing it wrong. The above is how it is done at scale in many organisations with complex products, including very significant organisations. Of course, there will be some deviation in practice. But generally speaking, the above is true in a well-functioning E2E test suite.
 
+
+...to be continued
+
 <!-- ### Predictable Execution
 
 
