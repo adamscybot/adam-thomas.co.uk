@@ -90,6 +90,14 @@ export const textStyles = defineTextStyles({
       fontSize: '1.3rem',
     },
   },
+  header4: {
+    description: 'h4',
+    value: {
+      fontFamily: 'inter',
+      fontWeight: '500',
+      fontSize: '1.2rem',
+    },
+  },
   tag: {
     description: 'Text inside of tags/labels',
     value: {

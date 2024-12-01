@@ -41,7 +41,7 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
         p: '3',
       },
 
-      '& h1, & h2, & h3': {
+      '& h1, & h2, & h3, & h4': {
         color: 'text.header',
         mb: '10',
         mt: '20',
@@ -57,6 +57,10 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
 
       '& h3': {
         textStyle: 'header3',
+      },
+
+      '& h4': {
+        textStyle: 'header4',
       },
 
       '& p': {
