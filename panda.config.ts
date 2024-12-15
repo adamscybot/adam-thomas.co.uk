@@ -24,7 +24,7 @@ export const textStyles = defineTextStyles({
     value: {
       fontFamily: 'inter',
       fontWeight: '400',
-      fontSize: 'md',
+      fontSize: '1.05rem',
       lineHeight: '1.7',
     },
   },
@@ -71,7 +71,7 @@ export const textStyles = defineTextStyles({
     value: {
       fontFamily: 'inter',
       fontWeight: '600',
-      fontSize: '2rem',
+      fontSize: '2.6rem',
     },
   },
   header2: {
@@ -79,7 +79,7 @@ export const textStyles = defineTextStyles({
     value: {
       fontFamily: 'inter',
       fontWeight: '600',
-      fontSize: '1.75rem',
+      fontSize: '2.3rem',
     },
   },
   header3: {
@@ -87,15 +87,15 @@ export const textStyles = defineTextStyles({
     value: {
       fontFamily: 'inter',
       fontWeight: '600',
-      fontSize: '1.3rem',
+      fontSize: '1.5rem',
     },
   },
   header4: {
     description: 'h4',
     value: {
       fontFamily: 'inter',
-      fontWeight: '500',
-      fontSize: '1.2rem',
+      fontWeight: '600',
+      fontSize: '1.1rem',
     },
   },
   tag: {

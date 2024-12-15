@@ -37,43 +37,58 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
       color: 'text.body',
       mb: '10',
 
+      '& *:not(.astro-code) > code': {
+        backgroundColor: '[#2a3349]',
+        padding: '[2px 7px]',
+        margin: '[0px 2px]',
+        whiteSpace: 'nowrap',
+      },
+
       '& .astro-code': {
         p: '3',
+        mt: '6',
+        mb: '6',
+        scrollbarColor: '[#333333 #696868]',
+        scrollbarWidth: 'thin',
       },
 
       '& h1, & h2, & h3, & h4': {
         color: 'text.header',
-        mb: '10',
-        mt: '20',
       },
 
       '& h1': {
         textStyle: 'header1',
+        mb: '6',
+        mt: '16',
       },
 
       '& h2': {
         textStyle: 'header2',
+        mb: '6',
+        mt: '16',
       },
 
       '& h3': {
         textStyle: 'header3',
+        mb: '4',
+        mt: '12',
       },
 
       '& h4': {
         textStyle: 'header4',
+        mb: '4',
+        mt: '8',
       },
 
       '& p': {
         textAlign: 'justify',
         textStyle: 'body',
         color: 'text.body',
-        mb: '7',
-        lineHeight: '[1.9]',
+        mb: '4',
       },
 
-      '& ul': {
-        listStyleType: '[disc]',
-        ml: '5',
+      '& ol,ul': {
+        ml: '12',
         textAlign: 'left',
         textStyle: 'body',
         color: 'text.body',
@@ -82,17 +97,37 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
         pl: '0',
       },
 
+      '& ul': {
+        listStyleType: '[disc]',
+      },
+
+      '& ol': {
+        listStyleType: '[decimal]',
+
+        '& ol': {
+          mb: '0',
+        },
+      },
+
       '& li': {
-        mb: '5',
+        mb: '1',
       },
 
       '& a': {
         textStyle: 'link',
         color: 'slate.50',
+        '&:hover': {
+          color: 'cyan.300',
+        },
       },
 
       '& em': {
         fontStyle: 'italic',
+      },
+
+      '& img': {
+        margin: '[0 auto]',
+        mt: '7',
       },
     })}
   >

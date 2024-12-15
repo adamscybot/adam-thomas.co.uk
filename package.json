@@ -12,17 +12,18 @@
     "prettier": "prettier --write \"src/**/*\" --plugin=prettier-plugin-astro --ignore-path .prettierignore"
   },
   "dependencies": {
-    "@astrojs/check": "^0.3.1",
-    "@astrojs/mdx": "^1.1.5",
-    "@astrojs/react": "^3.0.7",
-    "@astrojs/rss": "^3.0.0",
-    "@astrojs/sitemap": "^3.0.3",
-    "@astrojs/vercel": "^5.2.0",
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/mdx": "^4.0.2",
+    "@astrojs/react": "^4.1.0",
+    "@astrojs/rss": "^4.0.10",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/vercel": "^8.0.1",
     "@fontsource-variable/inter": "^5.0.15",
     "@giscus/react": "^3.0.0",
+    "@microflash/rehype-starry-night": "^7.1.1",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
-    "astro": "^3.6.4",
+    "astro": "^5.0.5",
     "astro-icon": "^0.8.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -33,6 +34,7 @@
     "@pandacss/astro": "^0.21.0",
     "@pandacss/dev": "^0.21.0",
     "prettier": "^3.1.0",
-    "prettier-plugin-astro": "^0.12.2"
+    "prettier-plugin-astro": "^0.12.2",
+    "sharp": "^0.33.5"
   }
 }
