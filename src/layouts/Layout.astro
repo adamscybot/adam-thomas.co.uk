@@ -20,7 +20,13 @@ type Props = {
 const { description, title, ogTitle, titlePrefix = SITE_TITLE } = Astro.props
 ---
 
-<html lang="en">
+<html
+  lang="en"
+  class={css({
+    scrollPaddingTop: 'nav.bufferLarge',
+    _oneHanded: { scrollPaddingTop: '[auto]' },
+  })}
+>
   <head>
     <BaseHead
       title={(titlePrefix ?? '') +

@@ -1,10 +1,13 @@
 ---
+import 'remark-github-blockquote-alert/alert.css'
 import type { CollectionEntry } from 'astro:content'
 import Giscus from '@giscus/react'
 import FormattedDate from '../components/FormattedDate.astro'
 import Layout from './Layout.astro'
 import { css } from '../styled-system/css'
 import SectionLink from '../components/SectionLink.astro'
+import '@fontsource-variable/fira-code'
+import '@fontsource-variable/fira-code/wght.css'
 
 type Props = CollectionEntry<'blog'>['data']
 
@@ -41,15 +44,40 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
         backgroundColor: '[#2a3349]',
         padding: '[2px 7px]',
         margin: '[0px 2px]',
-        whiteSpace: 'nowrap',
+        whiteSpace: 'break-spaces',
+        fontFamily:
+          "[ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New']",
       },
 
-      '& .astro-code': {
+      '& .expressive-code': {
         p: '3',
         mt: '6',
         mb: '6',
-        scrollbarColor: '[#333333 #696868]',
-        scrollbarWidth: 'thin',
+
+        '& code': {
+          textStyle: 'code',
+        },
+      },
+
+      '& .anchor-link': {
+        visibility: 'hidden',
+        textDecoration: 'none',
+        opacity: '[0.6]',
+        display: 'inline-block',
+        position: 'relative',
+        left: '2',
+        width: '0',
+      },
+
+      '& .anchor:hover': {
+        '& .anchor-link': {
+          visibility: 'visible',
+        },
+      },
+
+      '& .markdown-alert': {
+        background: '[rgba(255, 255, 255, 0.05)]',
+        paddingBlock: '[15px !important]',
       },
 
       '& h1, & h2, & h3, & h4': {
@@ -88,13 +116,16 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
       },
 
       '& ol,ul': {
-        ml: '12',
+        ml: '6',
         textAlign: 'left',
         textStyle: 'body',
         color: 'text.body',
         mb: '7',
         lineHeight: '[1.9]',
         pl: '0',
+        sm: {
+          ml: '12',
+        },
       },
 
       '& ul': {

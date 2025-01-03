@@ -107,6 +107,13 @@ export const textStyles = defineTextStyles({
       textTransform: 'uppercase',
     },
   },
+  code: {
+    description: 'Text inside code blocks',
+    value: {
+      fontFamily: 'Fira Code Variable',
+      fontSize: '0.9rem',
+    }
+  }
 })
 
 const connector = {
@@ -130,8 +137,8 @@ export default defineConfig({
   preflight: true,
   jsxFramework: 'react',
   include: [
-    './src/**/*.{ts,tsx,js,jsx,astro}',
-    './pages/**/*.{ts,tsx,js,jsx,astro}',
+    './src/**/*.{ts,tsx,js,jsx,astro,mdx}',
+    './pages/**/*.{ts,tsx,js,jsx,astro,mdx}',
   ],
   exclude: [],
   hash: true,
@@ -186,6 +193,7 @@ export default defineConfig({
           },
           nav: {
             buffer: { value: '{spacing.24}' },
+            bufferLarge: { value: '{spacing.28}' },
           },
           gutter: {
             width: { value: '{spacing.56}' },

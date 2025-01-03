@@ -3,6 +3,11 @@ title: 'Real time BLE sniffing in the shell with nrfutil and tshark'
 description: A technical dive into how to pipe live nRF BLE sniffer packet data from the "nrfutil" CLI to Wireshark's "tshark" inside a Unix or Windows shell
 pubDate: 'November 30 2024'
 ---
+import { Icon } from 'astro-icon'
+import { css } from '../../styled-system/css'
+
+> [!NOTE]  
+> tl;dr? Jump to either the <Icon name="icomoon-free:windows" class={css({ w: "4", mt: "[-3px]", display: 'inline-block', verticalAlign: 'middle' })} /> [Windows](#basic-poc-solution) or <Icon name="icomoon-free:tux" class={css({ w: "4", mt: "[-3px]", display: 'inline-block', verticalAlign: 'middle' })} /> [Unix/Linux/Mac](#unix) solution.
 
 Over the past few months I have launched a foray away from my development mainstays and into Bluetooth. Specifically, reverse engineering a BLE protocol for an IoT device in order to interop it with Home Assistant.
 
@@ -130,7 +135,7 @@ Wireshark with the extcap plugin does what I want in that it is a live view of i
 
 Unfortunately just firing off `tshark` with the latest version of the extcap plugin (at the time of writing) installed by `nrfutil ble-sniffer bootstrap` does not work out of the box:
 
-```
+```plain showLineNumbers=false
 Capturing on 'nRF Sniffer for Bluetooth LE COM6'
     1   0.000000 xx:xx:xx:xx:xx:xx → Broadcast    LE LL 63  ADV_NONCONN_IND
     2   0.000563 xx:xx:xx:xx:xx:xx → Broadcast    LE LL 63  ADV_NONCONN_IND
@@ -152,7 +157,7 @@ It isn't as clear and obvious as you might hope, and the challenges vary in size
 
 #### Trying to use the `stdout`
 I tried to configure the `ble-sniffer sniff` flags to output to `stdout`. There are some promising flags available that look like they might give us what we want. For example:
-```
+```plain showLineNumbers=false
  nrfutil --log-output=stdout --log-level=debug  --json ble-sniffer sniff --port <com-port>
 ```
 
@@ -165,7 +170,7 @@ This outputs some JSON formatted debug entries which consist of:
  
  Sadly the actual capture bytestream is not among this data. That continues being written into a file. However, it may seem interesting though that there is some data about the packet contents in the log output regardless, but that packet data is not oven-ready to consume:
 
- ```
+```plain showLineNumbers=false
  {"type":"log","data":{"level":"DEBUG","message":"Parsed packet: Packet { header: Header { id: PacketId(2), packet_counter: 14860, protocol_version: VersionX(3), payload_length: PayloadLength(Right(53)) }, payload: EventAdvertising(EventAdvertisingPacket { header: Header { flags: AdvertisingFlags { crc: 0, aux: 0, resolved: 0, phy: 0 }, inner: InnerHeader { metadata_length: 10, channel_index: 37, rssi_sample: -70, event_counter: 0, fw_timestamp: 2159642126 } }, payload: BleRadioPacket { metadata: UncodedPhy(UncodedPhyMetadata { access_address: [214, 190, 137, 142], header: Adv(AdvPhyChPduHeader { adv_type: ADV_TYPE_ADV_SCAN_IND, tx_addr_type: Random, rx_addr_type: None, length: 34 }), padding: 0 }), data: Unknown([131, 77, 33, 200, 35, 118, 3, 3, 159, 254, 23, 22, 159, 254, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 240, 192, 145, 82, 63]), crc: [0, 0, 0] } }) }","timestamp":"2024-12-09T21:00:16.854Z"}}
  ```
 
@@ -204,7 +209,7 @@ There doesn't appear to be any low-level binaries built into Windows to interact
 #### Discovering the limitations of `--output-pcap-file`
 Lets create a debug script to create and read from a named pipe:
 
-```
+```powershell frame="code" title="blereader.ps1"
 # Create the pipe
 $pipe = [System.IO.Pipes.NamedPipeServerStream]::new(
     "BleCapture",                       
@@ -237,7 +242,7 @@ This snippet is simplified, but here we are creating a pipe in the `In` directio
 
 As I feared, unfortunately just passing this reference to `--output-pcap-file` doesn't yield success:
 
-```
+```plain showLineNumbers=false
 nrfutil ble-sniffer sniff --port <com-port> --output-pcap-file "\\.\pipe\BleCapture"
 
 Error: Failed to create capturer
@@ -257,7 +262,7 @@ We can fire up Wireshark and kick off a capture in the GUI, which will internall
 
 Here's the condensed process tree, including the arguments being passed to each (in my specific instance, so there are references to the COM port the sniffer is connected to on my machine):
 
-```
+```plain showLineNumbers=false
 Wireshark.exe
 └── nrfutil-ble-sniffer-shim.exe --capture --extcap-interface COM6-4.4 --fifo \\.\pipe\wireshark_extcap_COM6-4.4_20241214180029 --extcap-control-out \\.\pipe\wireshark_control_ext_to_ws_COM6-4.4_20241214180029 --extcap-control-in \\.\pipe\wireshark_control_ws_to_ext_COM6-4.4_20241214180029 --scan-follow-rsp --scan-follow-aux
     └── nrfutil.exe ble-sniffer --capture --extcap-interface COM6-4.4 --fifo \\.\pipe\wireshark_extcap_COM6-4.4_20241214180029 --extcap-control-out \\.\pipe\wireshark_control_ext_to_ws_COM6-4.4_20241214180029 --extcap-control-in \\.\pipe\wireshark_control_ws_to_ext_COM6-4.4_20241214180029 --scan-follow-rsp --scan-follow-aux
@@ -292,7 +297,7 @@ So now we know there is indeed a CLI interface that evidently works with Windows
 
 Armed with this information, I can finally converge on a solution. This snippet contains the fundamentals and acts as my proof of concept of the approach. There is more to be done, which we will get onto.
 
-```powershell
+```powershell frame="code" title="blereader.ps1"
 $jobs = @()
 
 $cancellationTokenSource = New-Object System.Threading.CancellationTokenSource
@@ -315,7 +320,6 @@ $controlInPipe = [System.IO.Pipes.NamedPipeServerStream]::new(
     [System.IO.Pipes.PipeDirection]::Out,
     99
 )
-
 
 # Create the named pipe server in a job
 $jobs += Start-ThreadJob -ErrorAction Stop -Name $fifoPipoName -ScriptBlock {
@@ -374,12 +378,13 @@ finally {
 
 To run this very raw and simple example you must first run the script in at least PowerShell 7 (Windows currently ships with PowerShell 5.x) and pipe it into `tshark`. E.g.
 
-```
+```powershell showLineNumbers=false
 .\blereader.ps1 | & 'C:\Program Files\Wireshark\tshark.exe' -l -r -
 ```
 
 Secondly, execute the extcap plugin binary to connect to the pipes used by this script, e.g:  
-```
+
+```powershell showLineNumbers=false
 . "$env:APPDATA\Wireshark\extcap\nrfutil-ble-sniffer-shim.exe" --capture --extcap-interface COM6-4.4 --fifo \\.\pipe\BleCaptureFifo --extcap-control-in \\.\pipe\BleCaptureControlIn --scan-follow-rsp --scan-follow-aux
 ```
 

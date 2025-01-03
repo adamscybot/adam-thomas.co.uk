@@ -21,7 +21,7 @@ const { ...props } = Astro.props
 
   const initNavBehaviour = () => {
     const navEl: HTMLElement = document.querySelector(
-      asSelector(BehaviourAttributes.NAV),
+      asSelector(BehaviourAttributes.NAV)
     )!
 
     const navScrolledBelowObserver = new IntersectionObserver(
@@ -30,7 +30,7 @@ const { ...props } = Astro.props
         requestAnimationFrame(() => {
           navEl.style.setProperty(
             '--nav-intersection-ratio',
-            String(intersectionRatio),
+            String(intersectionRatio)
           )
 
           if (intersectionRatio >= 1) {
@@ -39,7 +39,7 @@ const { ...props } = Astro.props
           }
           navEl.setAttribute(
             BehaviourAttributes.NAV_SCROLL_POS_IS_BELOW,
-            'below-nav',
+            'below-nav'
           )
         })
       },
@@ -47,7 +47,7 @@ const { ...props } = Astro.props
         threshold: [0, 0.4, 0.6, 0.8, 1],
         root: null,
         rootMargin: '60px',
-      },
+      }
     )
 
     const navStuckObserver = new IntersectionObserver(
@@ -63,7 +63,7 @@ const { ...props } = Astro.props
         threshold: [1],
         root: null,
         rootMargin: '-1px 0px 0px 0px',
-      },
+      }
     )
 
     if (!CSS.supports('animation-timeline: view()')) {
@@ -144,7 +144,7 @@ const { ...props } = Astro.props
         height: '36',
         pointerEvents: 'none',
         background:
-          '[linear-gradient(180deg, rgba(2,0,36,0.7) 0%, rgba(2,6,23,0.7) 80%, rgba(0,0,0,0) 100%)]',
+          '[linear-gradient(180deg, rgba(2,0,36,0.7) 0%, rgba(2,6,23,0.7) 60%, rgba(0,0,0,0) 100%)]',
         opacity: '[0]',
 
         _supportsAnimationTimeline: {
@@ -163,7 +163,7 @@ const { ...props } = Astro.props
           height: '24',
           bottom: '0',
           background:
-            '[linear-gradient(0deg, rgba(2,0,36,0.7) 0%, rgba(2,6,23,0.7) 80%, rgba(0,0,0,0) 100%)]',
+            '[linear-gradient(0deg, rgba(2,0,36,0.7) 0%, rgba(2,6,23,0.7) 60%, rgba(0,0,0,0) 100%)]',
         },
         _supportsAnimationTimeline: {
           display: 'flex',
