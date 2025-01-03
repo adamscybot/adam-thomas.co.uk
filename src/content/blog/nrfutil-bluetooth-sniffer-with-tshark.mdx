@@ -7,7 +7,7 @@ import { Icon } from 'astro-icon'
 import { css } from '../../styled-system/css'
 
 > [!NOTE]  
-> tl;dr? Jump to either the <Icon name="icomoon-free:windows" class={css({ w: "4", mt: "[-3px]", display: 'inline-block', verticalAlign: 'middle' })} /> [Windows](#basic-poc-solution) or <Icon name="icomoon-free:tux" class={css({ w: "4", mt: "[-3px]", display: 'inline-block', verticalAlign: 'middle' })} /> [Unix/Linux/Mac](#unix) solution.
+> tl;dr? Jump to either the <Icon name="icomoon-free:windows" class={css({ w: "4", mt: "[-3px]", display: 'inline-block', verticalAlign: 'middle' })} /> [Windows](#basic-poc-solution) or <Icon name="icomoon-free:tux" class={css({ w: "4", mt: "[-3px]", display: 'inline-block', verticalAlign: 'middle' })} /> [Unix/Mac](#unix-including-mac-os) solution.
 
 Over the past few months I have launched a foray away from my development mainstays and into Bluetooth. Specifically, reverse engineering a BLE protocol for an IoT device in order to interop it with Home Assistant.
 
@@ -206,14 +206,14 @@ There are APIs/libs to create a Windows named pipe in any general purpose langua
 There doesn't appear to be any low-level binaries built into Windows to interact with named pipes from the old-fashioned `cmd.exe`, but I did have success with [windows-named-pipe-utils](https://github.com/psmay/windows-named-pipe-utils). However I want what I'm doing in this post to be in clear view and not hidden behind compiled binaries, hence I'm opting for PowerShell.
 
 
-#### Discovering the limitations of `--output-pcap-file`
+#### Failed Attempt: Using a pipe with `--output-pcap-file` directly
 Lets create a debug script to create and read from a named pipe:
 
 ```powershell frame="code" title="blereader.ps1"
 # Create the pipe
 $pipe = [System.IO.Pipes.NamedPipeServerStream]::new(
-    "BleCapture",                       
-    [System.IO.Pipes.PipeDirection]::In
+  "BleCapture",
+  [System.IO.Pipes.PipeDirection]::In
 )
 Write-Host "Waiting for the writer (tool) to connect..."
 
@@ -222,19 +222,19 @@ $pipe.WaitForConnection()
 Write-Host "Pipe connected."
 
 try {
-    $reader = New-Object System.IO.BinaryReader($pipe)
-    while ($true) {
-        $buffer = $reader.ReadBytes(1024) 
-        if ($buffer.Length -ne 0) {
-            # Do whatever with the buffer. Here we meaninglessly
-            # print a base64 of it to the console.
-            $base64Data = [Convert]::ToBase64String($buffer)
-            Write-Host $base64Data
-        }
+  $reader = New-Object System.IO.BinaryReader($pipe)
+  while ($true) {
+    $buffer = $reader.ReadBytes(1024)
+    if ($buffer.Length -ne 0) {
+      # Do whatever with the buffer. Here we meaninglessly
+      # print a base64 of it to the console.
+      $base64Data = [Convert]::ToBase64String($buffer)
+      Write-Host $base64Data
     }
+  }
 } finally {
-    $pipe.Close()
-    $reader.Close()
+  $pipe.Close()
+  $reader.Close()
 }
 ```
 
@@ -305,74 +305,72 @@ $cancellationToken = $cancellationTokenSource.Token
 
 $fifoPipoName = "BleCaptureFifo"
 $fifoPipe = New-Object System.IO.Pipes.NamedPipeServerStream(
-    $fifoPipoName,
-    [System.IO.Pipes.PipeDirection]::In,
-    99,
-    [System.IO.Pipes.PipeTransmissionMode]::Message,
-    [System.IO.Pipes.PipeOptions]::None,
-    65536,
-    65536
+  $fifoPipoName,
+  [System.IO.Pipes.PipeDirection]::In,
+  99,
+  [System.IO.Pipes.PipeTransmissionMode]::Message,
+  [System.IO.Pipes.PipeOptions]::None,
+  65536,
+  65536
 )
 
 $controlInPipeName = "BleCaptureControlIn"
 $controlInPipe = [System.IO.Pipes.NamedPipeServerStream]::new(
-    $controlInPipeName,                       
-    [System.IO.Pipes.PipeDirection]::Out,
-    99
+  $controlInPipeName,
+  [System.IO.Pipes.PipeDirection]::Out,
+  99
 )
 
-# Create the named pipe server in a job
 $jobs += Start-ThreadJob -ErrorAction Stop -Name $fifoPipoName -ScriptBlock {
-    $pipe = $using:fifoPipe
-    $token = $using:cancellationToken
+  $pipe = $using:fifoPipe
+  $token = $using:cancellationToken
 
-    # Use WaitForConnectionAsync with the cancellation token
-    $asyncTask = $pipe.WaitForConnectionAsync($token)
-    $asyncTask.Wait()
-    
-    try {
-        $reader = New-Object System.IO.BinaryReader($pipe)
-        $bufferSize = 4096
-        $buffer = New-Object Byte[] $bufferSize
-        
-        while ($true) {
-            $memStream = New-Object System.IO.MemoryStream
-            
-            do {
-                $bytesRead = $pipe.Read($buffer, 0, $buffer.Length)
-                if ($bytesRead -le 0) {
-                    break
-                }
-                $memStream.Write($buffer, 0, $bytesRead)
-            } while (-not $pipe.IsMessageComplete)
-            
-            if ($memStream.Length -eq 0) {
-                continue
-            }
-        
-            $data = $memStream.ToArray()
-            Write-Output $data
+  $asyncTask = $pipe.WaitForConnectionAsync($token)
+  $asyncTask.Wait()
+
+  try {
+    $reader = New-Object System.IO.BinaryReader($pipe)
+    $bufferSize = 4096
+    $buffer = New-Object Byte[] $bufferSize
+
+    while ($true) {
+      $memStream = New-Object System.IO.MemoryStream
+
+      do {
+        $bytesRead = $pipe.Read($buffer, 0, $buffer.Length)
+        if ($bytesRead -le 0) {
+          break
         }
+        $memStream.Write($buffer, 0, $bytesRead)
+      } while (-not $pipe.IsMessageComplete)
+
+      if ($memStream.Length -eq 0) {
+        continue
+      }
+
+      $data = $memStream.ToArray()
+      Write-Output $data
     }
-    finally {
-        $reader.Close()
-        $pipe.Close()
-    }
-} 
+  } finally {
+    $reader.Close()
+    $pipe.Close()
+  }
+}
 
 
 try {
-    while ($true) {
-        $jobs | Where-Object { ($_.HasMoreData) -or ($_.Error) } | Receive-Job -ErrorAction Stop
-    }
-    
-}
-finally {
-    $cancellationTokenSource.Cancel()
-    $fifoPipe.Close()
-    $controlInPipe.Close()
-    Stop-Job  $jobs
-    Remove-Job $jobs 
+  while ($true) {
+    $jobs | Where-Object {
+        ($_.HasMoreData) -or ($_.Error)
+    } | Receive-Job -ErrorAction Stop
+  }
+
+} finally {
+  $cancellationTokenSource.Cancel()
+  $fifoPipe.Close()
+  $controlInPipe.Close()
+  Stop-Job  $jobs
+  Remove-Job $jobs
 }
 ```
 
@@ -404,6 +402,27 @@ I am working on a PowerShell module which I will publish on GitHub soon (and upd
 - Automatically terminate the sniffer process if the script dies.
 - Add options to outputs PS objects for packets as represented by tshark which means your can pipe the script to PS tools like [`Out-GridView`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-gridview), [`Format-List`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/format-list), [`Format-Table`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/format-table), etc. for PS-native formatting.
 
-### Unix
+### Unix (including Mac OS)
 
-Coming soon. It should be straightforward with `mkfifo`. Watch this space...
+The Unix flavour of `nrfutil` is relatively easy to deal with. We do not need to use any undocumented interfaces or semi-internal binaries like I [described for the Windows approach](#finding-an-alternative-path). That's primarily because named pipes in unix-like environments already manifest as "files", and that is what `--output-pcap-file` accepts.
+
+First we simply call `mkfifo` to create such a named FIFO pipe (should be available on any distro and Mac OS). Then we run `nrfutil`, with `--output-pcap-file` pointing to that pipe. E.g.
+
+```bash showLineNumbers=false
+mfifo ./capture
+nrfutil ble-sniffer sniff --port /dev/ttyACM0 --output-pcap-file ./capture
+```
+
+Now in a different terminal session or as a background job we can read from this pipe and pass it to `tshark`:
+
+```bash showLineNumbers=false
+cat ./capture | tshark -l -r -   
+```
+
+And that's it! 
+
+## Further work
+
+I would like to explore dynamically changing BLE sniffer settings on the fly (e.g. followed device) without restarting the capture. This should be possible by using the control pipes on the internal extcap interface thhat I began exploring in the Windows section.
+
+I also plan to formalise the more complex Windows solution into a PowerShell Module.
