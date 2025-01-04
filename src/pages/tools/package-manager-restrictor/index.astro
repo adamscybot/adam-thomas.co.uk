@@ -1,0 +1,30 @@
+---
+import Layout from '../../../layouts/Layout.astro'
+import BodyParagraph from '../../../components/BodyParagraph.astro'
+import BodyHeader from '../../../components/BodyHeader.astro'
+---
+
+<script></script>
+<Layout
+  title="NPM Package Manager Restrictor"
+  description="Auto generate project configs that restrict the package manager to one of NPM, PNPM or Yarn."
+>
+  <BodyHeader>NPM Package Manager Restrictor</BodyHeader>
+  <form>
+    <BodyParagraph>
+      <input type="radio" checked id="npm" name="packageManager" value="npm" />
+      <label for="npm">npm</label>
+
+      <input type="radio" id="yarn" name="packageManager" value="yarn" />
+      <label for="yarn">yarn</label>
+
+      <input type="radio" id="pnpm" name="packageManager" value="pnpm" />
+      <label for="pnpm">pnpm</label>
+    </BodyParagraph>
+
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+  <BodyParagraph>f</BodyParagraph>
+</Layout>
