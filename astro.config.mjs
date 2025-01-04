@@ -29,6 +29,9 @@ export default defineConfig({
   ],
   output: 'static',
   adapter: vercel({
+    isr: {
+      bypassToken: process.env.VERCEL_ISR_BYPASS_TOKEN
+    },
     webAnalytics: {
       enabled: true,
     },
