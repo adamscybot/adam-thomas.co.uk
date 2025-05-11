@@ -2,13 +2,13 @@
 title: 'How do I become a software engineer?'
 description: 'A realistic view how you can skill up as a software engineer'
 pubDate: 'Jan 14 2023'
-# sectionLinks:
-#     - link: 'practical-experience'
-#       name: 'Hands on'
-#     - link: 'enthusiasm-for-the-craft'
-#       name: 'Enthusiasm'
-#     - link: 'problem-solving-capabilities'
-#       name: 'Prob solving'
+sectionLinks:
+    - link: 'practical-experience'
+      name: 'Hands on'
+    - link: 'enthusiasm-for-the-craft'
+      name: 'Enthusiasm'
+    - link: 'problem-solving-capabilities'
+      name: 'Probsolver'
 ---
 
 Over the years, I have been asked by a whole range of folks a variation of this question. Despite being in the middle of a career in the field, it has taken me most of those years to properly formulate an answer to that question. If you are hoping for a link you can read to get there, be prepared for disappointment. But if you want a realistic analysis of what it takes, well, here’s my two pence. 

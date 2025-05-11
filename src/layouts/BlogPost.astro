@@ -160,6 +160,22 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
         margin: '[0 auto]',
         mt: '7',
       },
+
+
+      '& figcaption': {
+        textAlign: 'center',
+        pt: '2',
+        textStyle: 'caption',
+        px: '4'
+      },
+
+      
+      '& figure': {
+        mb: '8',
+        display: 'flex',
+        flexDir: 'column',
+        alignItems: 'center'
+      }
     })}
   >
     <div class="prose">
