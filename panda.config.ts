@@ -66,6 +66,15 @@ export const textStyles = defineTextStyles({
       },
     },
   },
+  caption: {
+    description: 'Image captions',
+    value: {
+      fontFamily: 'inter',
+      fontStyle: 'italic',
+      fontWeight: '400',
+      fontSize: '1rem',
+    },
+  },
   header1: {
     description: 'h1',
     value: {

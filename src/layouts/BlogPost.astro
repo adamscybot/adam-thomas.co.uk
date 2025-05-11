@@ -115,6 +115,15 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
         mb: '4',
       },
 
+      '& svg.flowchart p': {
+        fontSize: '[0.9rem]',
+      },
+
+      '& svg.flowchart': {
+        margin: '[0 auto]',
+        my: '7',
+      },
+
       '& ol,ul': {
         ml: '6',
         textAlign: 'left',
@@ -159,6 +168,20 @@ const { title, description, pubDate, updatedDate, sectionLinks } = Astro.props
       '& img': {
         margin: '[0 auto]',
         mt: '7',
+      },
+
+      '& figcaption': {
+        textAlign: 'center',
+        pt: '2',
+        textStyle: 'caption',
+        px: '4',
+      },
+
+      '& figure': {
+        mb: '8',
+        display: 'flex',
+        flexDir: 'column',
+        alignItems: 'center',
       },
     })}
   >

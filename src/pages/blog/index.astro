@@ -25,9 +25,14 @@ const posts = (await getCollection('blog')).sort(
               textStyle: 'body',
               color: 'text.body',
               mr: '3',
+              minWidth: '[115px]',
+              display: 'inline-block',
             })}
           >
-            <FormattedDate date={post.data.pubDate} />
+            <FormattedDate
+              date={post.data.pubDate}
+              options={{ year: 'numeric', day: '2-digit', month: 'short' }}
+            />
           </span>
           <Link href={`/blog/${post.slug}/`}>
             <h2 class={css({ fontSize: 'lg', display: 'inline' })}>
